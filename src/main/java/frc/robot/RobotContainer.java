@@ -5,7 +5,7 @@
 package frc.robot;
 
 import frc.robot.Constants.OIConstants;
-import frc.robot.Constants.SubsystemConstants;
+//import frc.robot.Constants.SubsystemConstants;
 import frc.robot.commands.ClimbExtendCommand;
 import frc.robot.commands.ClimbRetractCommand;
 //import frc.robot.commands.Autos;
@@ -17,11 +17,11 @@ import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 
-import com.revrobotics.CANSparkLowLevel.MotorType;
-import com.revrobotics.CANSparkMax;
+//import com.revrobotics.spark.SparkLowLevel.MotorType;
+//import com.revrobotics.spark.SparkMax;
 
 import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.wpilibj.event.EventLoop;
+//import edu.wpi.first.wpilibj.event.EventLoop;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -30,10 +30,10 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.commands.aCommand;
-import frc.robot.commands.bCommand;
-import frc.robot.commands.asCommand;
-import frc.robot.commands.bsCommand;
+//import frc.robot.commands.aCommand;
+//import frc.robot.commands.bCommand;
+//import frc.robot.commands.asCommand;
+//import frc.robot.commands.bsCommand;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -54,12 +54,12 @@ public class RobotContainer {
   private final ShootNoteCommand m_ShootNoteCommand = new ShootNoteCommand(m_ShooterSubsystem);
   private final ClimbExtendCommand m_ClimbExtendCommand = new ClimbExtendCommand(m_ClimbSubsystem);
   private final ClimbRetractCommand m_ClimbRetractCommand = new ClimbRetractCommand(m_ClimbSubsystem);
-  private final aCommand m_ACommand = new aCommand(m_robotDrive);
-  private final bCommand m_BCommand = new bCommand(m_robotDrive);
-  private final asCommand m_ASCommand = new asCommand(m_ShooterSubsystem);
-  private final bsCommand m_BSCommand = new bsCommand(m_ShooterSubsystem);
-  private int ticks;
-  private int second;
+  //private final aCommand m_ACommand = new aCommand(m_robotDrive);
+  //private final bCommand m_BCommand = new bCommand(m_robotDrive);
+  //private final asCommand m_ASCommand = new asCommand(m_ShooterSubsystem);
+  //private final bsCommand m_BSCommand = new bsCommand(m_ShooterSubsystem);
+  //private int ticks;
+  //private int second;
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   // private final CommandXboxController m_driverController =
@@ -155,8 +155,8 @@ public class RobotContainer {
     SmartDashboard.putData(chooser);
     chooser.addOption("Just shoot", time4());
     SmartDashboard.putData(chooser);
-    ticks = 0;
-    second = 50;
+    //ticks = 0;
+    //second = 50;
   }
 
   SendableChooser<Command> chooser;

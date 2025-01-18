@@ -4,17 +4,17 @@
 
 package frc.robot;
 
-import com.kauailabs.navx.frc.AHRS;
+//import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.hal.SimDouble;
 import edu.wpi.first.hal.simulation.SimDeviceDataJNI;
-import edu.wpi.first.wpilibj.SPI;
+//import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.TimedRobot;
 //import edu.wpi.first.wpilibj.interfaces.Gyro;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+//import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.subsystems.DriveSubsystem;
+//import frc.robot.subsystems.DriveSubsystem;
 import edu.wpi.first.cameraserver.CameraServer;
 
 /**
@@ -38,7 +38,7 @@ public class Robot extends TimedRobot {
    * for any
    * initialization code.
    */
-  AHRS gyro = new AHRS(SPI.Port.kMXP);
+  //AHRS gyro = new AHRS(SPI.Port.kMXP);
 
   @Override
   public void robotInit() {
@@ -47,7 +47,7 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
     // gyro.calibr
     m_robotContainer = new RobotContainer();
-    Shuffleboard.getTab("Example tab").add(gyro);
+    //Shuffleboard.getTab("Example tab").add(gyro);
     CameraServer.startAutomaticCapture();
   }
 
