@@ -17,6 +17,8 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 //import frc.robot.subsystems.DriveSubsystem;
 import edu.wpi.first.cameraserver.CameraServer;
 
+//import com.studica.frc.AHRS;
+//import com.studica.frc.AHRS.NavXComType;
 /**
  * The VM is configured to automatically run this class, and to call the
  * functions corresponding to
@@ -38,14 +40,14 @@ public class Robot extends TimedRobot {
    * for any
    * initialization code.
    */
-  //AHRS gyro = new AHRS(SPI.Port.kMXP);
+  //private final AHRS gyro = new AHRS(NavXComType.kMXP_SPI);
 
   @Override
   public void robotInit() {
     // Instantiate our RobotContainer. This will perform all our button bindings,
     // and put our
     // autonomous chooser on the dashboard.
-    // gyro.calibr
+     //gyro.calibrate
     m_robotContainer = new RobotContainer();
     //Shuffleboard.getTab("Example tab").add(gyro);
     CameraServer.startAutomaticCapture();
