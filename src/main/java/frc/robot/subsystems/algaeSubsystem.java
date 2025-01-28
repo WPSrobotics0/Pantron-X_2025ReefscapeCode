@@ -14,7 +14,7 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.SubsystemConstants;
 
-public class ShooterSubsystem extends SubsystemBase {
+public class algaeSubsystem extends SubsystemBase {
 
   public enum ShooterLocation
   {
@@ -35,7 +35,7 @@ public class ShooterSubsystem extends SubsystemBase {
   public double shootSpeed=1.0;
 
   /** Creates a new ShooterSubsystem. */
-  public ShooterSubsystem() {
+  public algaeSubsystem() {
     SparkMaxConfig config = new SparkMaxConfig();
     config.idleMode(SparkBaseConfig.IdleMode.kBrake);
     //m_leftShooter.configure(config,SparkBase.ResetMode.kResetSafeParameters,SparkBase.PersistMode.kPersistParameters);

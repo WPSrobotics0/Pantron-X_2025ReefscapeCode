@@ -16,7 +16,9 @@ import frc.robot.subsystems.ClimbSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
-
+import frc.robot.subsystems.algaeSubsystem;
+import frc.robot.commands.ShootAlgaeCommand;
+import frc.robot.commands.IntakeAlgaeCommand;
 //import com.revrobotics.spark.SparkLowLevel.MotorType;
 //import com.revrobotics.spark.SparkMax;
 
@@ -47,6 +49,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
+  private final algaeSubsystem m_AlgaeSubsystem = new algaeSubsystem();
   private final DriveSubsystem m_robotDrive = new DriveSubsystem();
   private final ShooterSubsystem m_ShooterSubsystem = new ShooterSubsystem();
   private final ClimbSubsystem m_ClimbSubsystem = new ClimbSubsystem();
@@ -54,6 +57,8 @@ public class RobotContainer {
   private final ShootNoteCommand m_ShootNoteCommand = new ShootNoteCommand(m_ShooterSubsystem);
   private final ClimbExtendCommand m_ClimbExtendCommand = new ClimbExtendCommand(m_ClimbSubsystem);
   private final ClimbRetractCommand m_ClimbRetractCommand = new ClimbRetractCommand(m_ClimbSubsystem);
+  private final IntakeAlgaeCommand m_IntakeAlgaeCommand = new IntakeAlgaeCommand(m_AlgaeSubsystem);
+  private final ShootAlgaeCommand m_ShootAlgaeCommand = new ShootAlgaeCommand(m_AlgaeSubsystem);
   //private final aCommand m_ACommand = new aCommand(m_robotDrive);
   //private final bCommand m_BCommand = new bCommand(m_robotDrive);
   //private final asCommand m_ASCommand = new asCommand(m_ShooterSubsystem);
@@ -132,16 +137,18 @@ public class RobotContainer {
     m_armController.leftBumper().whileTrue(m_ClimbRetractCommand);
 
     //might work (potentail problem child)
-    if (RobotContainer.m_armController.a() != null) {
-      m_ShooterSubsystem.shootSpeed=0.5;
-      SmartDashboard.putBoolean("aIsPressed", true);
-    }
-    else{
-      m_ShooterSubsystem.shootSpeed=1;
-      SmartDashboard.putBoolean("aIsPressed", false);
-    }
+    //if (RobotContainer.m_armController.a() != null) {
+    //  m_ShooterSubsystem.shootSpeed=0.5;
+    //  SmartDashboard.putBoolean("aIsPressed", true);
+    //}
+    //else{
+    //  m_ShooterSubsystem.shootSpeed=1;
+    //  SmartDashboard.putBoolean("aIsPressed", false);
+    //}
 
-    m_armController.a().whileTrue(m_ShootNoteCommand);
+    //m_armController.a().whileTrue(m_ShootNoteCommand);
+    m_armController.a().whileTrue(m_IntakeAlgaeCommand);
+    m_armController.b().whileTrue(m_ShootAlgaeCommand);
 
     
     // m_driverController.b().whileTrue(m_BCommand);
@@ -229,11 +236,11 @@ public class RobotContainer {
     return new StartEndCommand(() -> {
 
       m_ShooterSubsystem.feed(0);
-      m_ShooterSubsystem.shoot(0);
+      //m_ShooterSubsystem.shoot(0);
     }, () -> {
 
       m_ShooterSubsystem.feed(0);
-      m_ShooterSubsystem.shoot(0);
+      //m_ShooterSubsystem.shoot(0);
     }).withTimeout(1);
   }
 
