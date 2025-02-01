@@ -31,7 +31,7 @@ import edu.wpi.first.cameraserver.CameraServer;
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
-  private RobotContainer m_robotContainer;
+  //private RobotContainer m_robotContainer;
   /*
    * private int autoCounter;
    * private DriveSubsystem autoDriveTrain;
@@ -48,7 +48,7 @@ public class Robot extends TimedRobot {
     // and put our
     // autonomous chooser on the dashboard.
      //gyro.calibrate
-    m_robotContainer = new RobotContainer();
+    //m_robotContainer = new RobotContainer();
     //Shuffleboard.getTab("Example tab").add(gyro);
     CameraServer.startAutomaticCapture();
   }
@@ -89,7 +89,7 @@ public class Robot extends TimedRobot {
    * {@link RobotContainer} class.
    */
   public void autonomousInit() {
-    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+    //m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {

@@ -22,7 +22,12 @@ import frc.robot.commands.IntakeAlgaeCommand;
 //import com.revrobotics.spark.SparkLowLevel.MotorType;
 //import com.revrobotics.spark.SparkMax;
 
+import com.pathplanner.lib.auto.AutoBuilder;
+//import com.pathplanner.lib.commands.PathPlannerAuto;
+import com.pathplanner.lib.auto.NamedCommands;
+
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 //import edu.wpi.first.wpilibj.event.EventLoop;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -59,6 +64,8 @@ public class RobotContainer {
   private final ClimbRetractCommand m_ClimbRetractCommand = new ClimbRetractCommand(m_ClimbSubsystem);
   private final IntakeAlgaeCommand m_IntakeAlgaeCommand = new IntakeAlgaeCommand(m_AlgaeSubsystem);
   private final ShootAlgaeCommand m_ShootAlgaeCommand = new ShootAlgaeCommand(m_AlgaeSubsystem);
+  private final ChassisSpeeds speeds= m_robotDrive.getRobotRelativeSpeeds();
+  private final SendableChooser<Command> autoChooser;
   //private final aCommand m_ACommand = new aCommand(m_robotDrive);
   //private final bCommand m_BCommand = new bCommand(m_robotDrive);
   //private final asCommand m_ASCommand = new asCommand(m_ShooterSubsystem);
@@ -86,13 +93,20 @@ public class RobotContainer {
     m_robotDrive.setDefaultCommand(
         // The left stick controls translation of the robot.
         // Turning is controlled by the X axis of the right stick.
+        
         new RunCommand(
-            () -> m_robotDrive.drive(
-                -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband),
-                -MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband),
-                MathUtil.applyDeadband(m_driverController.getRightX(), OIConstants.kDriveDeadband),
+          
+            () -> m_robotDrive.drive(driveControl(),
                 fieldRelative, false),
             m_robotDrive));
+    //change if in comp
+    NamedCommands.registerCommand("shoot", shoot());
+    boolean isCompetition = false;
+    autoChooser = AutoBuilder.buildAutoChooserWithOptionsModifier(
+      (stream) -> isCompetition
+    ? stream.filter(auto -> auto.getName().startsWith("comp"))
+    : stream);
+    SmartDashboard.putData("Auto Chooser", autoChooser);
   }
 
   boolean fieldRelative = true;
@@ -153,20 +167,20 @@ public class RobotContainer {
     
     // m_driverController.b().whileTrue(m_BCommand);
 
-    chooser = new SendableChooser<Command>();
-    chooser.addOption("Auton Forward", time());
-    SmartDashboard.putData(chooser);
-    chooser.addOption("Auton shoot then off to the right", time2());
-    SmartDashboard.putData(chooser);
-    chooser.addOption("Auton shoot then backward", time3());
-    SmartDashboard.putData(chooser);
-    chooser.addOption("Just shoot", time4());
-    SmartDashboard.putData(chooser);
+    //chooser = new SendableChooser<Command>();
+    //chooser.addOption("Auton Forward", time());
+    //SmartDashboard.putData(chooser);
+    //chooser.addOption("Auton shoot then off to the right", time2());
+    //SmartDashboard.putData(chooser);
+    //chooser.addOption("Auton shoot then backward", time3());
+    //SmartDashboard.putData(chooser);
+    //chooser.addOption("Just shoot", time4());
+    //SmartDashboard.putData(chooser);
     //ticks = 0;
     //second = 50;
   }
 
-  SendableChooser<Command> chooser;
+  //SendableChooser<Command> chooser;
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
@@ -175,26 +189,25 @@ public class RobotContainer {
    */
 
   public Command getAutonomousCommand() {
-    Command selected = chooser.getSelected();
-    if (selected != null) {
-      return selected;
-    } else {
-      return time();
-    }
-
-    // return time();
+    return autoChooser.getSelected();
   }
 
-  public Command time() {
+  public ChassisSpeeds driveControl(){
+    speeds.vyMetersPerSecond=-MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband);
+    speeds.vxMetersPerSecond=-MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband);
+    speeds.omegaRadiansPerSecond=MathUtil.applyDeadband(m_driverController.getRightX(), OIConstants.kDriveDeadband);
+    return speeds;
+  }
+  //public Command time() {
     // An example command will be run in autonomous
-    return new StartEndCommand(() -> {
-      m_robotDrive.drive(0.25, 0, 0, fieldRelative, false);
-    }, () -> {
-      m_robotDrive.drive(0, 0, 0, fieldRelative, false);
-    }, m_robotDrive).withTimeout(5);
-  }
+    //return new StartEndCommand(() -> {
+    //  m_robotDrive.drive(0.25, 0, 0, fieldRelative, false);
+    //}, () -> {
+    //  m_robotDrive.drive(0, 0, 0, fieldRelative, false);
+    //}, m_robotDrive).withTimeout(5);
+  //}
 
-  public Command time2() {
+  /*public Command time2() {
     // Auton option 2 shoots and moves the robot
     
     return move(.28,-1,0)
@@ -208,9 +221,9 @@ public class RobotContainer {
     );
 
 
-  }
+  }*/
 
-  public Command time3() {
+  /*public Command time3() {
     // Auton option 3 shoots then moves back
     
     return move(.28,-1,0)
@@ -218,7 +231,7 @@ public class RobotContainer {
       move(5, -1, 0));
 
 
-  }
+  }*/
   public Command time4() {
     // Auton option 4 shoots
     
@@ -228,7 +241,7 @@ public class RobotContainer {
   }
   public Command shoot() {
     // An example command will be run in autonomous
-    return new ShootNoteCommand(m_ShooterSubsystem).withTimeout(1.5);
+    return new ShootAlgaeCommand(m_AlgaeSubsystem).withTimeout(1.5);
   }
   public Command stopshoot() {
     // An example command will be run in autonomous
@@ -244,21 +257,21 @@ public class RobotContainer {
     }).withTimeout(1);
   }
 
-  public Command move(double duration, double xdir, double ydir) {
+  //public Command move(double duration, double xdir, double ydir) {
     // for x/ydir 0 ==no movement -1 == backward/right 1 == forward/left
-    return new StartEndCommand(() -> {
+    //return new StartEndCommand(() -> {
 
-      m_robotDrive.drive(xdir * 0.25, ydir * 0.25, 0, false, false);
-    }, () -> {
-      m_robotDrive.drive(0, 0, 0, false, false);
-    }, m_robotDrive).withTimeout(duration);
-  }
+    //  m_robotDrive.drive(xdir * 0.25, ydir * 0.25, 0, false, false);
+    //}, () -> {
+    //  m_robotDrive.drive(0, 0, 0, false, false);
+    //}, m_robotDrive).withTimeout(duration);
+  //}
 
-  public Command backwards(int duration) {
-    return new StartEndCommand(() -> {
-      m_robotDrive.drive(-0.25, 0, 0, fieldRelative, false);
-    }, () -> {
-      m_robotDrive.drive(0, 0, 0, fieldRelative, false);
-    }, m_robotDrive).withTimeout(duration);
-  }
+  //public Command backwards(int duration) {
+    //return new StartEndCommand(() -> {
+    //  m_robotDrive.drive(-0.25, 0, 0, fieldRelative, false);
+    //}, () -> {
+    //  m_robotDrive.drive(0, 0, 0, fieldRelative, false);
+    //}, m_robotDrive).withTimeout(duration);
+  //}
 }
