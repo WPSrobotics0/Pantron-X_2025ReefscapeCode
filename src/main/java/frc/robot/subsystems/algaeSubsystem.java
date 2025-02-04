@@ -53,7 +53,7 @@ public class algaeSubsystem extends SubsystemBase {
     configRight.idleMode(SparkBaseConfig.IdleMode.kBrake);
 
     m_rightFeeder.configure(configRight,SparkBase.ResetMode.kResetSafeParameters,SparkBase.PersistMode.kPersistParameters);
-    SmartDashboard.putNumber("works", 1);
+    SmartDashboard.putNumber("dsd", 1);
     //m_algaeLeftEncoder=(SparkRelativeEncoder) m_leftFeeder.getEncoder();
     /*m_leftShooter.setIdleMode(IdleMode.kCoast);
     m_leftFeeder.setIdleMode(IdleMode.kCoast);
@@ -76,6 +76,7 @@ public class algaeSubsystem extends SubsystemBase {
   public void setFeederSpeed(double speed) {
     m_leftFeeder.set(speed);
     m_rightFeeder.set(speed);
+    SmartDashboard.putBoolean("works", true);
   }
 
   //public void shoot(double speed) {
@@ -86,7 +87,7 @@ public class algaeSubsystem extends SubsystemBase {
   public void feed(double speed){
     m_leftFeeder.set(speed);
     m_rightFeeder.set(speed);
-
+    SmartDashboard.putBoolean("works", true);
     //m_rightFeeder.follow(m_leftShooter,true);
   }
 }

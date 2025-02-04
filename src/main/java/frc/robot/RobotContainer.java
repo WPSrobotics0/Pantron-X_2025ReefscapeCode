@@ -6,16 +6,17 @@ package frc.robot;
 
 import frc.robot.Constants.OIConstants;
 //import frc.robot.Constants.SubsystemConstants;
-//import frc.robot.commands.ClimbExtendCommand;
-//import frc.robot.commands.ClimbRetractCommand;
+import frc.robot.commands.ClimbExtendCommand;
+import frc.robot.commands.ClimbRetractCommand;
+
 //import frc.robot.commands.Autos;
 //import frc.robot.commands.ExampleCommand;
-//import frc.robot.commands.IntakeCoralCommand;
-//import frc.robot.commands.ShootCoralCommand;
-//import frc.robot.subsystems.ClimbSubsystem;
-//import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.commands.IntakeCoralCommand;
+import frc.robot.commands.ShootCoralCommand;
+import frc.robot.subsystems.ClimbSubsystem;
+import frc.robot.subsystems.DriveSubsystem;
 //import frc.robot.subsystems.ExampleSubsystem;
-//import frc.robot.subsystems.CoralSubsystem;
+import frc.robot.subsystems.CoralSubsystem;
 import frc.robot.subsystems.algaeSubsystem;
 import frc.robot.commands.ShootAlgaeCommand;
 import frc.robot.commands.IntakeAlgaeCommand;
@@ -26,8 +27,8 @@ import com.pathplanner.lib.auto.AutoBuilder;
 //import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.auto.NamedCommands;
 
-//import edu.wpi.first.math.MathUtil;
-//import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 //import edu.wpi.first.wpilibj.event.EventLoop;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -55,16 +56,16 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   //private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final algaeSubsystem m_AlgaeSubsystem = new algaeSubsystem();
-  //private final DriveSubsystem m_robotDrive = new DriveSubsystem();
-  //private final CoralSubsystem m_CoralSubsystem = new CoralSubsystem();
-  //private final ClimbSubsystem m_ClimbSubsystem = new ClimbSubsystem();
-  //private final IntakeCoralCommand m_IntakeCoralCommand = new IntakeCoralCommand(m_CoralSubsystem);
-  //private final ShootCoralCommand m_ShootCoralCommand = new ShootCoralCommand(m_CoralSubsystem);
-  //private final ClimbExtendCommand m_ClimbExtendCommand = new ClimbExtendCommand(m_ClimbSubsystem);
-  //private final ClimbRetractCommand m_ClimbRetractCommand = new ClimbRetractCommand(m_ClimbSubsystem);
-  //private final IntakeAlgaeCommand m_IntakeAlgaeCommand = new IntakeAlgaeCommand(m_AlgaeSubsystem);
-  //private final ShootAlgaeCommand m_ShootAlgaeCommand = new ShootAlgaeCommand(m_AlgaeSubsystem);
-  //private final ChassisSpeeds speeds= m_robotDrive.getRobotRelativeSpeeds();
+  private final DriveSubsystem m_robotDrive = new DriveSubsystem();
+  private final CoralSubsystem m_CoralSubsystem = new CoralSubsystem();
+  private final ClimbSubsystem m_ClimbSubsystem = new ClimbSubsystem();
+  private final IntakeCoralCommand m_IntakeCoralCommand = new IntakeCoralCommand(m_CoralSubsystem);
+  private final ShootCoralCommand m_ShootCoralCommand = new ShootCoralCommand(m_CoralSubsystem);
+  private final ClimbExtendCommand m_ClimbExtendCommand = new ClimbExtendCommand(m_ClimbSubsystem);
+  private final ClimbRetractCommand m_ClimbRetractCommand = new ClimbRetractCommand(m_ClimbSubsystem);
+  private final IntakeAlgaeCommand m_IntakeAlgaeCommand = new IntakeAlgaeCommand(m_AlgaeSubsystem);
+  private final ShootAlgaeCommand m_ShootAlgaeCommand = new ShootAlgaeCommand(m_AlgaeSubsystem);
+  private final ChassisSpeeds speeds= m_robotDrive.getRobotRelativeSpeeds();
   private final SendableChooser<Command> autoChooser;
   
 
@@ -72,8 +73,8 @@ public class RobotContainer {
   // private final CommandXboxController m_driverController =
   // new CommandXboxController(OIConstants.kDriverControllerPort);
 
-  //public final static CommandXboxController m_driverController = new CommandXboxController(
-      //OIConstants.kDriverControllerPort0);
+  public final static CommandXboxController m_driverController = new CommandXboxController(
+      OIConstants.kDriverControllerPort0);
 
   public final static CommandXboxController m_armController = new CommandXboxController(
       OIConstants.kDriverControllerPort1);
@@ -99,8 +100,8 @@ public class RobotContainer {
     boolean isCompetition = false;
     NamedCommands.registerCommand("shootAlgae", shootAlgae());
     NamedCommands.registerCommand("intakeAlgae", intakeAlgae());
-    //NamedCommands.registerCommand("shootCoral", shootCoral());
-    //NamedCommands.registerCommand("intakeCoral", intakeCoral());
+    NamedCommands.registerCommand("shootCoral", shootCoral());
+    NamedCommands.registerCommand("intakeCoral", intakeCoral());
     autoChooser = AutoBuilder.buildAutoChooserWithOptionsModifier(
       (stream) -> isCompetition
     ? stream.filter(auto -> auto.getName().startsWith("comp"))
@@ -134,8 +135,8 @@ public class RobotContainer {
     // cancelling on release.
     // m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
 
-    //m_armController.rightTrigger(0.15).whileTrue(m_ShootCoralCommand);
-    //m_armController.leftTrigger(0.15).whileTrue(m_IntakeCoralCommand);
+    m_armController.rightTrigger(0.15).whileTrue(m_ShootCoralCommand);
+    m_armController.leftTrigger(0.15).whileTrue(m_IntakeCoralCommand);
 
     //m_driverController.y().onTrue(new InstantCommand(() -> fieldRelative = false));
     //m_driverController.x().onTrue(new InstantCommand(() -> fieldRelative = true));
@@ -146,8 +147,8 @@ public class RobotContainer {
     // m_armController.b().whileTrue(m_BSCommand);
 
     // you would want these uncomented if you want a working lift
-    //m_armController.rightBumper().whileTrue(m_ClimbExtendCommand);
-    //m_armController.leftBumper().whileTrue(m_ClimbRetractCommand);
+    m_armController.rightBumper().whileTrue(m_ClimbExtendCommand);
+    m_armController.leftBumper().whileTrue(m_ClimbRetractCommand);
 
     //might work (potentail problem child)
     //if (RobotContainer.m_armController.a() != null) {
@@ -161,8 +162,8 @@ public class RobotContainer {
 
     //m_armController.a().whileTrue(m_ShootNoteCommand);
     //m_armController.a().whileTrue(new IntakeAlgaeCommand(m_AlgaeSubsystem));
-    m_armController.b().whileTrue(new ShootAlgaeCommand(m_AlgaeSubsystem));
-    m_armController.a().whileTrue(new IntakeAlgaeCommand(m_AlgaeSubsystem));
+    m_armController.b().whileTrue(m_ShootAlgaeCommand);
+    m_armController.a().whileTrue(m_IntakeAlgaeCommand);
     
     // m_driverController.b().whileTrue(m_BCommand);
 
@@ -191,12 +192,12 @@ public class RobotContainer {
     return autoChooser.getSelected();
   }
 
-  //public ChassisSpeeds driveControl(){
-    //speeds.vyMetersPerSecond=-MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband);
-    //speeds.vxMetersPerSecond=-MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband);
-    //speeds.omegaRadiansPerSecond=MathUtil.applyDeadband(m_driverController.getRightX(), OIConstants.kDriveDeadband);
-    //return speeds;
-  //}
+  public ChassisSpeeds driveControl(){
+    speeds.vyMetersPerSecond=-MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband);
+    speeds.vxMetersPerSecond=-MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband);
+    speeds.omegaRadiansPerSecond=MathUtil.applyDeadband(m_driverController.getRightX(), OIConstants.kDriveDeadband);
+    return speeds;
+  }
   //public Command time() {
     // An example command will be run in autonomous
     //return new StartEndCommand(() -> {
@@ -246,24 +247,24 @@ public class RobotContainer {
     // An example command will be run in autonomous
     return new IntakeAlgaeCommand(m_AlgaeSubsystem).withTimeout(1.5);
   }
-  /*public Command shootCoral() {
+  public Command shootCoral() {
     // An example command will be run in autonomous
     return new ShootCoralCommand(m_CoralSubsystem).withTimeout(1.5);
   }
   public Command intakeCoral() {
     // An example command will be run in autonomous
     return new IntakeCoralCommand(m_CoralSubsystem).withTimeout(1.5);
-  }*/
+  }
   public Command stopshoot() {
     // An example command will be run in autonomous
 
     return new StartEndCommand(() -> {
 
-      //m_CoralSubsystem.feed(0);
+      m_CoralSubsystem.feed(0);
       //m_ShooterSubsystem.shoot(0);
     }, () -> {
 
-      //m_CoralSubsystem.feed(0);
+      m_CoralSubsystem.feed(0);
       //m_ShooterSubsystem.shoot(0);
     }).withTimeout(1);
   }
