@@ -10,12 +10,12 @@ import frc.robot.commands.ClimbExtendCommand;
 import frc.robot.commands.ClimbRetractCommand;
 //import frc.robot.commands.Autos;
 import frc.robot.commands.ExampleCommand;
-import frc.robot.commands.IntakeNoteCommand;
-import frc.robot.commands.ShootNoteCommand;
+import frc.robot.commands.IntakeCoralCommand;
+import frc.robot.commands.ShootCoralCommand;
 import frc.robot.subsystems.ClimbSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
-import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.CoralSubsystem;
 import frc.robot.subsystems.algaeSubsystem;
 import frc.robot.commands.ShootAlgaeCommand;
 import frc.robot.commands.IntakeAlgaeCommand;
@@ -56,10 +56,10 @@ public class RobotContainer {
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final algaeSubsystem m_AlgaeSubsystem = new algaeSubsystem();
   private final DriveSubsystem m_robotDrive = new DriveSubsystem();
-  private final ShooterSubsystem m_ShooterSubsystem = new ShooterSubsystem();
+  private final CoralSubsystem m_CoralSubsystem = new CoralSubsystem();
   private final ClimbSubsystem m_ClimbSubsystem = new ClimbSubsystem();
-  private final IntakeNoteCommand m_IntakeNoteCommand = new IntakeNoteCommand(m_ShooterSubsystem);
-  private final ShootNoteCommand m_ShootNoteCommand = new ShootNoteCommand(m_ShooterSubsystem);
+  private final IntakeCoralCommand m_IntakeNoteCommand = new IntakeCoralCommand(m_CoralSubsystem);
+  private final ShootCoralCommand m_ShootNoteCommand = new ShootCoralCommand(m_CoralSubsystem);
   private final ClimbExtendCommand m_ClimbExtendCommand = new ClimbExtendCommand(m_ClimbSubsystem);
   private final ClimbRetractCommand m_ClimbRetractCommand = new ClimbRetractCommand(m_ClimbSubsystem);
   private final IntakeAlgaeCommand m_IntakeAlgaeCommand = new IntakeAlgaeCommand(m_AlgaeSubsystem);
@@ -100,8 +100,11 @@ public class RobotContainer {
                 fieldRelative, false),
             m_robotDrive));
     //change if in comp
-    NamedCommands.registerCommand("shoot", shoot());
     boolean isCompetition = false;
+    NamedCommands.registerCommand("shootAlgae", shootAlgae());
+    NamedCommands.registerCommand("intakeAlgae", intakeAlgae());
+    NamedCommands.registerCommand("shootCoral", shootCoral());
+    NamedCommands.registerCommand("intakeCoral", intakeCoral());
     autoChooser = AutoBuilder.buildAutoChooserWithOptionsModifier(
       (stream) -> isCompetition
     ? stream.filter(auto -> auto.getName().startsWith("comp"))
@@ -235,24 +238,36 @@ public class RobotContainer {
   public Command time4() {
     // Auton option 4 shoots
     
-    return shoot();
+    return shootAlgae();
 
 
   }
-  public Command shoot() {
+  public Command shootAlgae() {
     // An example command will be run in autonomous
     return new ShootAlgaeCommand(m_AlgaeSubsystem).withTimeout(1.5);
+  }
+  public Command intakeAlgae() {
+    // An example command will be run in autonomous
+    return new IntakeAlgaeCommand(m_AlgaeSubsystem).withTimeout(1.5);
+  }
+  public Command shootCoral() {
+    // An example command will be run in autonomous
+    return new ShootCoralCommand(m_CoralSubsystem).withTimeout(1.5);
+  }
+  public Command intakeCoral() {
+    // An example command will be run in autonomous
+    return new IntakeCoralCommand(m_CoralSubsystem).withTimeout(1.5);
   }
   public Command stopshoot() {
     // An example command will be run in autonomous
 
     return new StartEndCommand(() -> {
 
-      m_ShooterSubsystem.feed(0);
+      m_CoralSubsystem.feed(0);
       //m_ShooterSubsystem.shoot(0);
     }, () -> {
 
-      m_ShooterSubsystem.feed(0);
+      m_CoralSubsystem.feed(0);
       //m_ShooterSubsystem.shoot(0);
     }).withTimeout(1);
   }

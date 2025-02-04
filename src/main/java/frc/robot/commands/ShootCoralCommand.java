@@ -8,16 +8,16 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 //import frc.robot.RobotContainer;
 //import frc.robot.subsystems.DriveSubsystem;
-import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.CoralSubsystem;
 
-public class ShootNoteCommand extends Command {
-  private ShooterSubsystem m_shooter;
+public class ShootCoralCommand extends Command {
+  private CoralSubsystem m_shooter;
   private int ticks;
   private int threshold;
   double getRightTriggerAxis;
   int convRightTriggerAxis;
   /** Creates a new ShootNote. */
-  public ShootNoteCommand(ShooterSubsystem shooter) {
+  public ShootCoralCommand(CoralSubsystem shooter) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(shooter);
     m_shooter = shooter;

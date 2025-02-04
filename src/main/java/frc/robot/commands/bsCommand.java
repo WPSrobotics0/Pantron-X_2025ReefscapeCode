@@ -5,7 +5,7 @@
 package frc.robot.commands;
 
 //import frc.robot.subsystems.DriveSubsystem;
-import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.CoralSubsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 //import frc.robot.Constants;
@@ -14,8 +14,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 public class bsCommand extends Command {
   /** Creates a new ShootNote. */
   private int ticks;
-  private ShooterSubsystem m_robodshooter;
-  public bsCommand(ShooterSubsystem robodshooter) {
+  private CoralSubsystem m_robodshooter;
+  public bsCommand(CoralSubsystem robodshooter) {
     addRequirements(robodshooter);
     m_robodshooter = robodshooter;
     // Use addRequirements() here to declare subsystem dependencies.
