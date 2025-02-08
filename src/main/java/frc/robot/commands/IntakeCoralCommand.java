@@ -4,7 +4,7 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+//import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.CoralSubsystem;
 
@@ -22,7 +22,7 @@ public class IntakeCoralCommand extends Command {
   public void initialize() {
     //m_shooter.setShooterSpeed(0.5);
     m_shooter.setFeederSpeed(0.5);
-    SmartDashboard.putBoolean("intakeon", true);
+    //SmartDashboard.putBoolean("intakeon", true);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -34,7 +34,7 @@ public class IntakeCoralCommand extends Command {
   public void end(boolean interrupted) {
     //m_shooter.setShooterSpeed(0);
     m_shooter.setFeederSpeed(0);
-        SmartDashboard.putBoolean("intakeon", false);
+        //SmartDashboard.putBoolean("intakeon", false);
 
   }
 
