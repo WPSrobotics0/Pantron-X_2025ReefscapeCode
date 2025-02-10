@@ -4,7 +4,7 @@
 
 package frc.robot.commands;
 
-//import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 //import frc.robot.RobotContainer;
 //import frc.robot.subsystems.DriveSubsystem;
@@ -31,8 +31,8 @@ public class ShootCoralCommand extends Command {
     //m_shooter.setShooterSpeed(-1*m_shooter.shootSpeed);
     ticks = 0;
     threshold=25;
-    //SmartDashboard.putBoolean("coralouttakeon", true);
-    //SmartDashboard.putNumber("num", m_shooter.shootSpeed);
+    SmartDashboard.putBoolean("outtakeon", true);
+    SmartDashboard.putNumber("num", m_shooter.shootSpeed);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -52,7 +52,7 @@ public class ShootCoralCommand extends Command {
       m_shooter.setFeederSpeed(-1*m_shooter.shootSpeed);
     }
     
-    //SmartDashboard.putNumber("num", m_shooter.shootSpeed);
+    SmartDashboard.putNumber("num", m_shooter.shootSpeed);
   }
   
   // Called once the command ends or is interrupted.
@@ -60,7 +60,7 @@ public class ShootCoralCommand extends Command {
   public void end(boolean interrupted) {
     //m_shooter.setShooterSpeed(0);
     m_shooter.setFeederSpeed(0);
-   //SmartDashboard.putBoolean("coralouttakeon", true);
+    SmartDashboard.putBoolean("outtakeon", true);
   }
 
   // Returns true when the command should end.
