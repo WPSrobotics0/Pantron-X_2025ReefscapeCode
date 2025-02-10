@@ -3,7 +3,7 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 //import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.hal.SimDouble;
@@ -30,7 +30,7 @@ import edu.wpi.first.cameraserver.CameraServer;
  */
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
-  
+
   //private RobotContainer m_robotContainer;
   /*
    * private int autoCounter;
@@ -121,15 +121,10 @@ public class Robot extends TimedRobot {
       m_autonomousCommand.cancel();
     }
   }
-  double counter = 0.0;
+
   /** This function is called periodically during operator control. */
   @Override
-  
   public void teleopPeriodic() {
-    
-  
-      SmartDashboard.putNumber("Counter", counter++);
-   
   }
 
   @Override

@@ -9,20 +9,19 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.algaeSubsystem;
 
 public class IntakeAlgaeCommand extends Command {
-  algaeSubsystem m_shooter;
+  private algaeSubsystem m_shooter;
   /** Creates a new IntakeNoteCommand. */
   public IntakeAlgaeCommand(algaeSubsystem shooter) {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(m_shooter);
-    shooter= m_shooter;
-    SmartDashboard.putBoolean("intakeon", true);
+    addRequirements(shooter);
+    m_shooter = shooter;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
     //m_shooter.setShooterSpeed(0.5);
-    m_shooter.setFeederSpeed(0.1);
+    m_shooter.setFeederSpeed(0.5);
     SmartDashboard.putBoolean("intakeon", true);
   }
 

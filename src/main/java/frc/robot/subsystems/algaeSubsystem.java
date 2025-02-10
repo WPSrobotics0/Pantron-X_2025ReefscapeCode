@@ -7,14 +7,10 @@ package frc.robot.subsystems;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.SparkBaseConfig;
 import com.revrobotics.spark.config.SparkMaxConfig;
-//import com.revrobotics.spark.SparkRelativeEncoder;
-
 import com.revrobotics.spark.SparkBase;
 //import com.revrobotics.spark.SparkBase;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-//import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.SubsystemConstants;
 
@@ -32,29 +28,23 @@ public class algaeSubsystem extends SubsystemBase {
   };
 
   //private final SparkMax m_leftShooter = new SparkMax(SubsystemConstants.kLeftShooterCanId, MotorType.kBrushed);
-  private final SparkMax m_leftFeeder = new SparkMax(SubsystemConstants.kLeftAlgaeCanId, MotorType.kBrushless);
+  private final SparkMax m_leftFeeder = new SparkMax(SubsystemConstants.kLeftFeederCanId, MotorType.kBrushed);
   //private final SparkMax m_rightShooter = new SparkMax(SubsystemConstants.kRightShooterCanId, MotorType.kBrushed);
-  private final SparkMax m_rightFeeder = new SparkMax(SubsystemConstants.kRightAlgaeCanId, MotorType.kBrushless);
+  private final SparkMax m_rightFeeder = new SparkMax(SubsystemConstants.kRightFeederCanId, MotorType.kBrushed);
   public int shootMode=3;
-  public double shootSpeed=0.1;
-  //private SparkRelativeEncoder m_algaeLeftEncoder;
-  //private double m_clawIntakeSpeed = 0.2;
-  //private double m_clawShootSpeed = 0.2;
+  public double shootSpeed=1.0;
+
   /** Creates a new ShooterSubsystem. */
   public algaeSubsystem() {
-    SparkMaxConfig configLeft = new SparkMaxConfig();
-    SparkMaxConfig configRight= new SparkMaxConfig();
-    configLeft.idleMode(SparkBaseConfig.IdleMode.kBrake);
+    SparkMaxConfig config = new SparkMaxConfig();
+    config.idleMode(SparkBaseConfig.IdleMode.kBrake);
     //m_leftShooter.configure(config,SparkBase.ResetMode.kResetSafeParameters,SparkBase.PersistMode.kPersistParameters);
-    m_leftFeeder.configure(configLeft,SparkBase.ResetMode.kResetSafeParameters,SparkBase.PersistMode.kPersistParameters);
+    m_leftFeeder.configure(config,SparkBase.ResetMode.kResetSafeParameters,SparkBase.PersistMode.kPersistParameters);
     //config.follow(m_leftShooter,true);
     //m_rightShooter.configure(config,SparkBase.ResetMode.kResetSafeParameters,SparkBase.PersistMode.kPersistParameters);
-    //config.follow(m_leftFeeder,true);
-    configRight.idleMode(SparkBaseConfig.IdleMode.kBrake);
+    config.follow(m_leftFeeder,true);
+    m_rightFeeder.configure(config,SparkBase.ResetMode.kResetSafeParameters,SparkBase.PersistMode.kPersistParameters);
 
-    m_rightFeeder.configure(configRight,SparkBase.ResetMode.kResetSafeParameters,SparkBase.PersistMode.kPersistParameters);
-    SmartDashboard.putNumber("works", 1);
-    //m_algaeLeftEncoder=(SparkRelativeEncoder) m_leftFeeder.getEncoder();
     /*m_leftShooter.setIdleMode(IdleMode.kCoast);
     m_leftFeeder.setIdleMode(IdleMode.kCoast);
     m_rightShooter.setIdleMode(IdleMode.kCoast);
@@ -67,7 +57,6 @@ public class algaeSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    
   }
 
   //public void setShooterSpeed(double speed) {
@@ -75,7 +64,6 @@ public class algaeSubsystem extends SubsystemBase {
   //}
   public void setFeederSpeed(double speed) {
     m_leftFeeder.set(speed);
-    m_rightFeeder.set(speed);
   }
 
   //public void shoot(double speed) {
@@ -85,7 +73,6 @@ public class algaeSubsystem extends SubsystemBase {
   //}
   public void feed(double speed){
     m_leftFeeder.set(speed);
-    m_rightFeeder.set(speed);
 
     //m_rightFeeder.follow(m_leftShooter,true);
   }
