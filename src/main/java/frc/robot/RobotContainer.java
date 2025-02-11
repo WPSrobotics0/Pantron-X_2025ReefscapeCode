@@ -8,12 +8,14 @@ import frc.robot.Constants.OIConstants;
 //import frc.robot.Constants.SubsystemConstants;
 import frc.robot.commands.ClimbExtendCommand;
 import frc.robot.commands.ClimbRetractCommand;
+import frc.robot.commands.ExtendAlgaeLiftCommand;
 //import frc.robot.commands.Autos;
 //import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.IntakeCoralCommand;
+import frc.robot.commands.RetractAlgaeLiftCommand;
 import frc.robot.commands.ShootCoralCommand;
 import frc.robot.subsystems.ClimbSubsystem;
-import frc.robot.subsystems.DriveSubsystem;
+//import frc.robot.subsystems.DriveSubsystem;
 //import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.CoralSubsystem;
 import frc.robot.subsystems.algaeSubsystem;
@@ -22,18 +24,18 @@ import frc.robot.commands.IntakeAlgaeCommand;
 //import com.revrobotics.spark.SparkLowLevel.MotorType;
 //import com.revrobotics.spark.SparkMax;
 
-import com.pathplanner.lib.auto.AutoBuilder;
+//import com.pathplanner.lib.auto.AutoBuilder;
 //import com.pathplanner.lib.commands.PathPlannerAuto;
-import com.pathplanner.lib.auto.NamedCommands;
+//import com.pathplanner.lib.auto.NamedCommands;
 
-import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.math.kinematics.ChassisSpeeds;
+//import edu.wpi.first.math.MathUtil;
+//import edu.wpi.first.math.kinematics.ChassisSpeeds;
 //import edu.wpi.first.wpilibj.event.EventLoop;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+//import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+//import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.RunCommand;
+//import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -53,9 +55,9 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
+  //private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final algaeSubsystem m_AlgaeSubsystem = new algaeSubsystem();
-  private final DriveSubsystem m_robotDrive = new DriveSubsystem();
+  //private final DriveSubsystem m_robotDrive = new DriveSubsystem();
   private final CoralSubsystem m_CoralSubsystem = new CoralSubsystem();
   private final ClimbSubsystem m_ClimbSubsystem = new ClimbSubsystem();
   private final IntakeCoralCommand m_IntakeCoralCommand = new IntakeCoralCommand(m_CoralSubsystem);
@@ -64,8 +66,12 @@ public class RobotContainer {
   private final ClimbRetractCommand m_ClimbRetractCommand = new ClimbRetractCommand(m_ClimbSubsystem);
   private final IntakeAlgaeCommand m_IntakeAlgaeCommand = new IntakeAlgaeCommand(m_AlgaeSubsystem);
   private final ShootAlgaeCommand m_ShootAlgaeCommand = new ShootAlgaeCommand(m_AlgaeSubsystem);
-  private final ChassisSpeeds speeds= m_robotDrive.getRobotRelativeSpeeds();
-  private final SendableChooser<Command> autoChooser;
+  private final ExtendAlgaeLiftCommand m_ExtendAlgaeLiftCommand = new ExtendAlgaeLiftCommand(m_AlgaeSubsystem);
+  private final RetractAlgaeLiftCommand m_RetractAlgaeLiftCommand=new RetractAlgaeLiftCommand(m_AlgaeSubsystem);
+  //private final ChassisSpeeds speeds= m_robotDrive.getRobotRelativeSpeeds();
+  //private final SendableChooser<Command> autoChooser;
+  private final Robot m_robot;
+  
   //private final aCommand m_ACommand = new aCommand(m_robotDrive);
   //private final bCommand m_BCommand = new bCommand(m_robotDrive);
   //private final asCommand m_ASCommand = new asCommand(m_ShooterSubsystem);
@@ -85,31 +91,35 @@ public class RobotContainer {
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
-  public RobotContainer() {
+  
+  public RobotContainer(Robot robot) {
     // Configure the trigger bindings
+    m_robot=robot;
     configureBindings();
+    
 
-    // Configure default commands
-    m_robotDrive.setDefaultCommand(
+    // Configure default commands\
+    //UNCOMMENT LATER
+    //m_robotDrive.setDefaultCommand(
         // The left stick controls translation of the robot.
         // Turning is controlled by the X axis of the right stick.
         
-        new RunCommand(
+    //    new RunCommand(
           
-            () -> m_robotDrive.drive(driveControl(),
-                fieldRelative, false),
-            m_robotDrive));
+    //        () -> m_robotDrive.drive(driveControl(),
+    //            fieldRelative, false),
+    //        m_robotDrive));
     //change if in comp
-    boolean isCompetition = false;
-    NamedCommands.registerCommand("shootAlgae", shootAlgae());
-    NamedCommands.registerCommand("intakeAlgae", intakeAlgae());
-    NamedCommands.registerCommand("shootCoral", shootCoral());
-    NamedCommands.registerCommand("intakeCoral", intakeCoral());
-    autoChooser = AutoBuilder.buildAutoChooserWithOptionsModifier(
-      (stream) -> isCompetition
-    ? stream.filter(auto -> auto.getName().startsWith("comp"))
-    : stream);
-    SmartDashboard.putData("Auto Chooser", autoChooser);
+    //boolean isCompetition = false;
+    //NamedCommands.registerCommand("shootAlgae", shootAlgae());
+    //NamedCommands.registerCommand("intakeAlgae", intakeAlgae());
+    //NamedCommands.registerCommand("shootCoral", shootCoral());
+    //NamedCommands.registerCommand("intakeCoral", intakeCoral());
+    //autoChooser = AutoBuilder.buildAutoChooserWithOptionsModifier(
+    //  (stream) -> isCompetition
+    //? stream.filter(auto -> auto.getName().startsWith("comp"))
+    //: stream);
+    //SmartDashboard.putData("Auto Chooser", autoChooser);
   }
 
   boolean fieldRelative = true;
@@ -130,22 +140,22 @@ public class RobotContainer {
    */
   private void configureBindings() {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-    new Trigger(m_exampleSubsystem::exampleCondition)
-        .onTrue(new ExampleCommand(m_exampleSubsystem));
+    //new Trigger(m_exampleSubsystem::exampleCondition)
+    //    .onTrue(new ExampleCommand(m_exampleSubsystem));
 
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is
     // pressed,
     // cancelling on release.
     // m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
 
-    m_armController.rightTrigger(0.15).whileTrue(m_ShootCoralCommand);
-    m_armController.leftTrigger(0.15).whileTrue(m_IntakeCoralCommand);
+    m_armController.rightTrigger(0.15).whileTrue(m_RetractAlgaeLiftCommand);
+    m_armController.leftTrigger(0.15).whileTrue(m_ExtendAlgaeLiftCommand);
 
     m_driverController.y().onTrue(new InstantCommand(() -> fieldRelative = false));
     m_driverController.x().onTrue(new InstantCommand(() -> fieldRelative = true));
 
-    m_driverController.start().onTrue(new
-      InstantCommand(()->m_robotDrive.zeroHeading()));
+    //m_driverController.start().onTrue(new
+    //  InstantCommand(()->m_robotDrive.zeroHeading()));
     // m_armController.a().whileTrue(m_ASCommand);
     // m_armController.b().whileTrue(m_BSCommand);
 
@@ -167,7 +177,8 @@ public class RobotContainer {
     m_armController.a().whileTrue(m_IntakeAlgaeCommand);
     m_armController.b().whileTrue(m_ShootAlgaeCommand);
 
-    
+    m_armController.x().whileTrue(m_IntakeCoralCommand);
+    m_armController.y().whileTrue(m_ShootCoralCommand);
     // m_driverController.b().whileTrue(m_BCommand);
 
     //chooser = new SendableChooser<Command>();
@@ -191,16 +202,16 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
 
-  public Command getAutonomousCommand() {
-    return autoChooser.getSelected();
-  }
-
-  public ChassisSpeeds driveControl(){
-    speeds.vyMetersPerSecond=-MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband);
-    speeds.vxMetersPerSecond=-MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband);
-    speeds.omegaRadiansPerSecond=MathUtil.applyDeadband(m_driverController.getRightX(), OIConstants.kDriveDeadband);
-    return speeds;
-  }
+  //public Command getAutonomousCommand() {
+  //  return autoChooser.getSelected();
+  //}
+  //UNCOMMENT LATERs
+  //public ChassisSpeeds driveControl(){
+    //speeds.vyMetersPerSecond=-MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband);
+    //speeds.vxMetersPerSecond=-MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband);
+    //speeds.omegaRadiansPerSecond=MathUtil.applyDeadband(m_driverController.getRightX(), OIConstants.kDriveDeadband);
+    //return speeds;
+  //}
   //public Command time() {
     // An example command will be run in autonomous
     //return new StartEndCommand(() -> {

@@ -10,7 +10,7 @@ import com.revrobotics.spark.config.SparkMaxConfig;
 //import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SparkBaseConfig;
-
+import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkBase;
 //import java.io.ObjectInputFilter.Config;
@@ -37,15 +37,28 @@ public class ClimbSubsystem extends SubsystemBase {
 
   /** Creates a new ClimbSubsystem. */
   public ClimbSubsystem() {
-    SparkMaxConfig config = new SparkMaxConfig();
+    //SparkMaxConfig config = new SparkMaxConfig();
     //config.signals.primaryEncoderPositionPeriodMs(5);
-    config.idleMode(SparkBaseConfig.IdleMode.kBrake);
-    config.closedLoop.pidf(kClimbP, kClimbI, kClimbD,kClimbFF);
-    
-    m_climbMotor1.configure(config,SparkBase.ResetMode.kResetSafeParameters,SparkBase.PersistMode.kPersistParameters);
+    SparkMaxConfig globalConfig = new SparkMaxConfig();
+    SparkMaxConfig leaderConfig =new SparkMaxConfig();
+    SparkBaseConfig followerConfig = new SparkMaxConfig();
+    globalConfig
+        .smartCurrentLimit(50)
+        .idleMode(IdleMode.kBrake)
+        .closedLoop.pidf(kClimbP, kClimbI, kClimbD,kClimbFF);
+    leaderConfig
+        .apply(globalConfig);
+    followerConfig
+        .apply(globalConfig);
+    //m_leftShooter.configure(config,SparkBase.ResetMode.kResetSafeParameters,SparkBase.PersistMode.kPersistParameters);
+    m_climbMotor1.configure(leaderConfig,SparkBase.ResetMode.kResetSafeParameters,SparkBase.PersistMode.kPersistParameters);
+    //config.follow(m_leftShooter,true);
+    //m_rightShooter.configure(config,SparkBase.ResetMode.kResetSafeParameters,SparkBase.PersistMode.kPersistParameters);
+    m_climbMotor2.configure(followerConfig,SparkBase.ResetMode.kResetSafeParameters,SparkBase.PersistMode.kPersistParameters);
 
-    config.follow(m_climbMotor1, false);
-    m_climbMotor2.configure(config,SparkBase.ResetMode.kResetSafeParameters,SparkBase.PersistMode.kPersistParameters);
+    
+    
+   
 
     //m_climbMotor1.setIdleMode(IdleMode.kBrake);
     //m_climbMotor2.setIdleMode(IdleMode.kBrake);
@@ -74,10 +87,12 @@ public class ClimbSubsystem extends SubsystemBase {
 
   public void setExtendSpeed(double speed) {
     m_climbMotor1.set(speed);
+    m_climbMotor2.set(-1*speed);
   }
 
   public void setRetractSpeed(double speed) {
     m_climbMotor1.set(-1 * speed);
+    m_climbMotor2.set(speed);
   }
 
   public void smartDashboardInit()

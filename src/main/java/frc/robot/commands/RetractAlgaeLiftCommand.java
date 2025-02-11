@@ -6,12 +6,12 @@ package frc.robot.commands;
 
 //import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.CoralSubsystem;
+import frc.robot.subsystems.algaeSubsystem;
 
-public class IntakeCoralCommand extends Command {
-  private CoralSubsystem m_shooter;
+public class RetractAlgaeLiftCommand extends Command {
+  private algaeSubsystem m_shooter;
   /** Creates a new IntakeNoteCommand. */
-  public IntakeCoralCommand(CoralSubsystem shooter) {
+  public RetractAlgaeLiftCommand(algaeSubsystem shooter) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(shooter);
     m_shooter = shooter;
@@ -22,7 +22,7 @@ public class IntakeCoralCommand extends Command {
   public void initialize() {
     //m_shooter.setShooterSpeed(0.5);
     m_shooter.setFeederSpeed(1);
-    
+    //SmartDashboard.putBoolean("intakeon", true);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -34,7 +34,7 @@ public class IntakeCoralCommand extends Command {
   public void end(boolean interrupted) {
     //m_shooter.setShooterSpeed(0);
     m_shooter.setFeederSpeed(0);
-    
+    //    SmartDashboard.putBoolean("intakeon", false);
 
   }
 

@@ -13,8 +13,7 @@ import frc.robot.subsystems.algaeSubsystem;
 
 public class ShootAlgaeCommand extends Command {
   private algaeSubsystem m_shooter;
-  private int ticks;
-  private int threshold;
+  
   double getRightTriggerAxis;
   int convRightTriggerAxis;
   /** Creates a new ShootNote. */
@@ -30,8 +29,7 @@ public class ShootAlgaeCommand extends Command {
     //getRightTriggerAxis=RobotContainer.m_armController.getRightTriggerAxis(); 
     //m_shooter.setShooterSpeed(-1);
     //m_shooter.setShooterSpeed(-1*m_shooter.shootSpeed);
-    ticks = 0;
-    threshold=25;
+    
     SmartDashboard.putBoolean("outtakeon", true);
     SmartDashboard.putNumber("num", m_shooter.shootSpeed);
   }
@@ -40,7 +38,6 @@ public class ShootAlgaeCommand extends Command {
   @Override
   public void execute() {
     //getRightTriggerAxis=RobotContainer.m_armController.getRightTriggerAxis(); 
-    ticks +=1;
     /*
     if ((getRightTriggerAxis*100)%4==0){
       convRightTriggerAxis=(int) getRightTriggerAxis*100;
@@ -48,12 +45,12 @@ public class ShootAlgaeCommand extends Command {
     }
      */
     
-    if (ticks == threshold) {
+    
       //m_shooter.setFeederSpeed(-1*getRightTriggerAxis);
       m_shooter.setFeederSpeed(-1*m_shooter.shootSpeed);
-    }
     
-    SmartDashboard.putNumber("num", m_shooter.shootSpeed);
+    
+    //SmartDashboard.putNumber("num", m_shooter.shootSpeed);
   }
   
   // Called once the command ends or is interrupted.
@@ -61,7 +58,7 @@ public class ShootAlgaeCommand extends Command {
   public void end(boolean interrupted) {
     //m_shooter.setShooterSpeed(0);
     m_shooter.setFeederSpeed(0);
-    SmartDashboard.putBoolean("outtakeon", true);
+    //SmartDashboard.putBoolean("outtakeon", true);
   }
 
   // Returns true when the command should end.
