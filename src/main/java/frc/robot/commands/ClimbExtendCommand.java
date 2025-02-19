@@ -22,7 +22,7 @@ public class ClimbExtendCommand extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_climb.setExtendSpeed(0.15);
+    m_climb.setExtendSpeed(0.1);
     SmartDashboard.putBoolean("climbExtendon", true);
   }
 
@@ -30,7 +30,7 @@ public class ClimbExtendCommand extends Command {
   @Override
   public void execute() {
     //why different speeds???
-    m_climb.setExtendSpeed(0.35);
+    m_climb.setExtendSpeed(0.1);
   }
 
   // Called once the command ends or is interrupted.

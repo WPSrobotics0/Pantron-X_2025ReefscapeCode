@@ -24,8 +24,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.SubsystemConstants;
 
 public class ClimbSubsystem extends SubsystemBase {
-  private final SparkMax m_climbMotor1 = new SparkMax(SubsystemConstants.kClimbMotor1CanId, MotorType.kBrushed);
-  private final SparkMax m_climbMotor2 = new SparkMax(SubsystemConstants.kClimbMotor2CanId, MotorType.kBrushed);
+  private final SparkMax m_climbMotor1 = new SparkMax(SubsystemConstants.kClimbMotor1CanId, MotorType.kBrushless);
+  private final SparkMax m_climbMotor2 = new SparkMax(SubsystemConstants.kClimbMotor2CanId, MotorType.kBrushless);
 
   private SparkClosedLoopController m_climbPid;
   // private RelativeEncoder m_climbEncoder;

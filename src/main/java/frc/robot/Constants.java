@@ -46,20 +46,20 @@ public final class Constants {
 
     // Angular offsets of the modules relative to the chassis in radians
     public static final double kFrontLeftChassisAngularOffset = Math.PI;
-    public static final double kFrontRightChassisAngularOffset = Math.PI / 2;
-    public static final double kBackLeftChassisAngularOffset = Math.PI / 2 + Math.PI;
+    public static final double kFrontRightChassisAngularOffset = Math.PI;
+    public static final double kBackLeftChassisAngularOffset = Math.PI;
     public static final double kBackRightChassisAngularOffset = Math.PI;
 
     // SPARK MAX CAN IDs
-    public static final int kFrontLeftDrivingCanId = 3;
-    public static final int kRearLeftDrivingCanId = 2;
-    public static final int kFrontRightDrivingCanId = 4;
-    public static final int kRearRightDrivingCanId = 1;
+    public static final int kFrontLeftDrivingCanId = 1;
+    public static final int kRearLeftDrivingCanId = 4;
+    public static final int kFrontRightDrivingCanId = 2;
+    public static final int kRearRightDrivingCanId = 3;
 
-    public static final int kFrontLeftTurningCanId = 13;
-    public static final int kRearLeftTurningCanId = 12;
-    public static final int kFrontRightTurningCanId = 14;
-    public static final int kRearRightTurningCanId = 11;
+    public static final int kFrontLeftTurningCanId = 11;
+    public static final int kRearLeftTurningCanId = 14;
+    public static final int kFrontRightTurningCanId = 12;
+    public static final int kRearRightTurningCanId = 13;
 
     public static final boolean kGyroReversed = false;
   }

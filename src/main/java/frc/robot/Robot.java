@@ -8,7 +8,8 @@ import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
-//import com.kauailabs.navx.frc.AHRS;
+import com.studica.frc.AHRS;
+import com.studica.frc.AHRS.NavXComType;
 
 import edu.wpi.first.hal.SimDouble;
 import edu.wpi.first.hal.simulation.SimDeviceDataJNI;
@@ -50,7 +51,7 @@ public class Robot extends TimedRobot {
    * for any
    * initialization code.
    */
-  //private final AHRS gyro = new AHRS(NavXComType.kMXP_SPI);
+  private final AHRS gyro = new AHRS(NavXComType.kMXP_SPI);
   private RobotContainer m_robotContainer;
   //SparkMax rightLeader;
   //XboxController joystick;
@@ -148,6 +149,8 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+    
+
   }
 
   /** This function is called periodically during operator control. */
@@ -155,6 +158,7 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
     // forward = -joystick.getLeftY();
     //rightLeader.set(forward);
+    //m_robotContainer.teleDrive(m_robotContainer.speeds, m_robotContainer.fieldRelative, true);
   }
 
   @Override

@@ -7,7 +7,8 @@ package frc.robot.subsystems;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-
+import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DutyCycle;
 import com.revrobotics.spark.SparkMax;
 //import com.revrobotics.spark.config.AbsoluteEncoderConfig;
 //import com.revrobotics.spark.config.SparkBaseConfig;
@@ -21,35 +22,44 @@ import com.revrobotics.RelativeEncoder;
 //import com.revrobotics.sim.SparkRelativeEncoderSim;
 //import com.revrobotics.sim.SparkAbsoluteEncoderSim;
 import com.revrobotics.spark.config.ClosedLoopConfig.FeedbackSensor;
+import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.ClosedLoopSlot;
 //import frc.robot.Constants.ModuleConstants;
+import com.revrobotics.spark.SparkRelativeEncoder;
+import com.revrobotics.spark.SparkMaxAlternateEncoder;
 
 public class MAXSwerveModule {
   private final SparkMax m_drivingSparkMax;
   private final SparkMax m_turningSparkMax;
 
   private final RelativeEncoder m_drivingEncoder;
-  private final AbsoluteEncoder m_turningEncoder;
+  private final RelativeEncoder m_turningEncoder;
 
   private final SparkClosedLoopController m_drivingPIDController;
   private final SparkClosedLoopController m_turningPIDController;
 
   private SparkMaxConfig m_drivingConfig;
   private SparkMaxConfig m_turningConfig;
-
+  private DigitalInput m_dutyCycleInput;
+  private DutyCycle m_dutyCycleEncoder;
   private double m_chassisAngularOffset = 0;
+  private final double m_steerOffset;
+  private static final int kEncoderResolution = 4096;
+  private static final double kWheelRadius = 2.0 * 0.0254;
+  private static final double kGearboxRatio = 1.0 / 6.12;
   private SwerveModuleState m_desiredState = new SwerveModuleState(0.0, new Rotation2d());
-
+  private static final double kWheelCircumference = 0.3;
+  private static final double kDrivePositionFactor = kWheelCircumference * kGearboxRatio;
   /**
    * Constructs a MAXSwerveModule and configures the driving and turning motor,
    * encoder, and PID controller. This configuration is specific to the REV
    * MAXSwerve Module built with NEOs, SPARKS MAX, and a Through Bore
    * Encoder.
    */
-  public MAXSwerveModule(int drivingCANId, int turningCANId, double chassisAngularOffset) {
+  public MAXSwerveModule(int drivingCANId, int turningCANId, double chassisAngularOffset,int dutyCycle, double steerOffset) {
     m_drivingSparkMax = new SparkMax(drivingCANId, MotorType.kBrushless);
     m_turningSparkMax = new SparkMax(turningCANId, MotorType.kBrushless);
-
+    m_steerOffset = steerOffset;
     // Factory reset, so we get the SPARKS MAX to a known state before configuring
     // them. This is useful in case a SPARK MAX is swapped out.
     //SparkMaxConfig config = new SparkMaxConfig();
@@ -59,16 +69,22 @@ public class MAXSwerveModule {
     // Setup encoders and PID controllers for the driving and turning SPARKS MAX.
     //Type.kDutyCycle
     m_drivingEncoder = m_drivingSparkMax.getEncoder();
-    m_turningEncoder = m_turningSparkMax.getAbsoluteEncoder();
+    m_turningEncoder = m_turningSparkMax.getEncoder();
     m_drivingPIDController = m_drivingSparkMax.getClosedLoopController();
     m_turningPIDController = m_turningSparkMax.getClosedLoopController();
 
-
+    m_dutyCycleInput=new DigitalInput(dutyCycle);
+    m_dutyCycleEncoder= new DutyCycle(m_dutyCycleInput);
     m_drivingConfig = new SparkMaxConfig();
     m_turningConfig = new SparkMaxConfig();
+    m_drivingConfig
+        .smartCurrentLimit(50)
+        .idleMode(IdleMode.kCoast);
+    m_turningConfig
+        .apply(m_drivingConfig);
     //INTergrated version of encoder
-    m_drivingConfig.encoder.positionConversionFactor(1).velocityConversionFactor(1);
-    m_turningConfig.encoder.positionConversionFactor(1).velocityConversionFactor(1);
+    m_drivingConfig.encoder.positionConversionFactor(kDrivePositionFactor).velocityConversionFactor(kDrivePositionFactor/60);
+    m_turningConfig.encoder.positionConversionFactor(2*Math.PI);
 
 
     m_drivingConfig.closedLoop.feedbackSensor(FeedbackSensor.kPrimaryEncoder)
@@ -108,8 +124,8 @@ public class MAXSwerveModule {
     // native units for position and velocity are rotations and RPM, respectively,
     // but we want meters and meters per second to use with WPILib's swerve APIs.
     
-    //m_drivingEncoder.setPositionConversionFactor(ModuleConstants.kDrivingEncoderPositionFactor);
-    //m_drivingEncoder.setVelocityConversionFactor(ModuleConstants.kDrivingEncoderVelocityFactor);
+    //m_drivingEncoder.setPositionConversionFactor(kDrivePositionFactor);
+    //m_drivingEncoder.setVelocityConversionFactor(kDrivePositionFactor/60);
 
     // Apply position and velocity conversion factors for the turning encoder. We
     // want these in radians and radians per second to use with WPILib's swerve
@@ -192,7 +208,16 @@ public class MAXSwerveModule {
         m_drivingEncoder.getPosition(),
         new Rotation2d(m_turningEncoder.getPosition() - m_chassisAngularOffset));
   }
-
+  public double getAbsoluteEncoderPosition(){
+    double initalPosition = m_dutyCycleEncoder.getOutput();
+    double initalPositionInRadians = initalPosition * 2.0 * Math.PI;
+    double initalPositionInRadiansScaled = new Rotation2d(initalPositionInRadians - m_steerOffset).getRadians();
+    return initalPositionInRadiansScaled;
+  }
+  public void resetAngleEncoderToAbsolute()
+    {
+        m_turningEncoder.setPosition(getAbsoluteEncoderPosition());
+    }
   /**
    * Sets the desired state for the module.
    *
