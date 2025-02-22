@@ -11,16 +11,16 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.CoralSubsystem;
 
 public class ShootCoralCommand extends Command {
-  private CoralSubsystem m_shooter;
+  private CoralSubsystem m_Coral;
   private int ticks;
   private int threshold;
   double getRightTriggerAxis;
   int convRightTriggerAxis;
   /** Creates a new ShootNote. */
-  public ShootCoralCommand(CoralSubsystem shooter) {
+  public ShootCoralCommand(CoralSubsystem coral) {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(shooter);
-    m_shooter = shooter;
+    addRequirements(coral);
+    m_Coral = coral;
   }
 
   // Called when the command is initially scheduled.
@@ -29,17 +29,17 @@ public class ShootCoralCommand extends Command {
     //getRightTriggerAxis=RobotContainer.m_armController.getRightTriggerAxis(); 
     //m_shooter.setShooterSpeed(-1);
     //m_shooter.setShooterSpeed(-1*m_shooter.shootSpeed);
-    ticks = 0;
-    threshold=25;
+    //ticks = 0;
+    //threshold=25;
     SmartDashboard.putBoolean("outtakeon", true);
-    SmartDashboard.putNumber("num", m_shooter.shootSpeed);
+    SmartDashboard.putNumber("num", m_Coral.shootSpeed);
+    m_Coral.setFeederSpeed(1*m_Coral.shootSpeed);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     //getRightTriggerAxis=RobotContainer.m_armController.getRightTriggerAxis(); 
-    ticks +=1;
     /*
     if ((getRightTriggerAxis*100)%4==0){
       convRightTriggerAxis=(int) getRightTriggerAxis*100;
@@ -47,19 +47,18 @@ public class ShootCoralCommand extends Command {
     }
      */
     
-    if (ticks == threshold) {
-      //m_shooter.setFeederSpeed(-1*getRightTriggerAxis);
-      m_shooter.setFeederSpeed(-1*m_shooter.shootSpeed);
-    }
     
-    SmartDashboard.putNumber("num", m_shooter.shootSpeed);
+      //m_shooter.setFeederSpeed(-1*getRightTriggerAxis);
+      
+    
+    SmartDashboard.putNumber("num", m_Coral.shootSpeed);
   }
   
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     //m_shooter.setShooterSpeed(0);
-    m_shooter.setFeederSpeed(0);
+    m_Coral.setFeederSpeed(0);
     SmartDashboard.putBoolean("outtakeon", true);
   }
 

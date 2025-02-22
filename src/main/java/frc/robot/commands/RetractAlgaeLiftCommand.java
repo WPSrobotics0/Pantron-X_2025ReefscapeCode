@@ -9,19 +9,19 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.algaeSubsystem;
 
 public class RetractAlgaeLiftCommand extends Command {
-  private algaeSubsystem m_shooter;
+  private algaeSubsystem m_Algae;
   /** Creates a new IntakeNoteCommand. */
-  public RetractAlgaeLiftCommand(algaeSubsystem shooter) {
+  public RetractAlgaeLiftCommand(algaeSubsystem algae) {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(shooter);
-    m_shooter = shooter;
+    addRequirements(algae);
+    m_Algae = algae;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
     //m_shooter.setShooterSpeed(0.5);
-    m_shooter.setFeederSpeed(1);
+    m_Algae.setLiftSpeed(.9);
     //SmartDashboard.putBoolean("intakeon", true);
   }
 
@@ -33,7 +33,7 @@ public class RetractAlgaeLiftCommand extends Command {
   @Override
   public void end(boolean interrupted) {
     //m_shooter.setShooterSpeed(0);
-    m_shooter.setFeederSpeed(0);
+    m_Algae.setLiftSpeed(0);
     //    SmartDashboard.putBoolean("intakeon", false);
 
   }

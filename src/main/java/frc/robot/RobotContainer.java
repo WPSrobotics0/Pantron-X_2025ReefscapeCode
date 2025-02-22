@@ -21,6 +21,7 @@ import frc.robot.subsystems.CoralSubsystem;
 import frc.robot.subsystems.algaeSubsystem;
 import frc.robot.commands.ShootAlgaeCommand;
 import frc.robot.commands.IntakeAlgaeCommand;
+import frc.robot.commands.TeleOpDriveCommand;
 //import com.revrobotics.spark.SparkLowLevel.MotorType;
 //import com.revrobotics.spark.SparkMax;
 
@@ -30,6 +31,7 @@ import frc.robot.commands.IntakeAlgaeCommand;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 //import edu.wpi.first.wpilibj.event.EventLoop;
 //import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 //import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -53,22 +55,24 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   //private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
-  //private final algaeSubsystem m_AlgaeSubsystem = new algaeSubsystem();
+  private final algaeSubsystem m_AlgaeSubsystem = new algaeSubsystem();
   private final DriveSubsystem m_robotDrive = new DriveSubsystem();
-  //private final CoralSubsystem m_CoralSubsystem = new CoralSubsystem();
-  //private final ClimbSubsystem m_ClimbSubsystem = new ClimbSubsystem();
-  /*private final IntakeCoralCommand m_IntakeCoralCommand = new IntakeCoralCommand(m_CoralSubsystem);
+  private final CoralSubsystem m_CoralSubsystem = new CoralSubsystem();
+  private final ClimbSubsystem m_ClimbSubsystem = new ClimbSubsystem();
+  private final IntakeCoralCommand m_IntakeCoralCommand = new IntakeCoralCommand(m_CoralSubsystem);
   private final ShootCoralCommand m_ShootCoralCommand = new ShootCoralCommand(m_CoralSubsystem);
   private final ClimbExtendCommand m_ClimbExtendCommand = new ClimbExtendCommand(m_ClimbSubsystem);
   private final ClimbRetractCommand m_ClimbRetractCommand = new ClimbRetractCommand(m_ClimbSubsystem);
   private final IntakeAlgaeCommand m_IntakeAlgaeCommand = new IntakeAlgaeCommand(m_AlgaeSubsystem);
   private final ShootAlgaeCommand m_ShootAlgaeCommand = new ShootAlgaeCommand(m_AlgaeSubsystem);
   private final ExtendAlgaeLiftCommand m_ExtendAlgaeLiftCommand = new ExtendAlgaeLiftCommand(m_AlgaeSubsystem);
-  private final RetractAlgaeLiftCommand m_RetractAlgaeLiftCommand=new RetractAlgaeLiftCommand(m_AlgaeSubsystem);*/
+  private final RetractAlgaeLiftCommand m_RetractAlgaeLiftCommand=new RetractAlgaeLiftCommand(m_AlgaeSubsystem);
   public final ChassisSpeeds speeds= new ChassisSpeeds(0.0, 0.0, 0);
   //private final SendableChooser<Command> autoChooser;
   private final Robot m_robot;
-  
+  private final Conditioning m_driveXConditioning = new Conditioning();
+  private final Conditioning m_driveYConditioning = new Conditioning();
+  private final Conditioning m_turnConditioning = new Conditioning();
   //private final aCommand m_ACommand = new aCommand(m_robotDrive);
   //private final bCommand m_BCommand = new bCommand(m_robotDrive);
   //private final asCommand m_ASCommand = new asCommand(m_ShooterSubsystem);
@@ -92,20 +96,26 @@ public class RobotContainer {
   public RobotContainer(Robot robot) {
     // Configure the trigger bindings
     m_robot=robot;
+    m_driveXConditioning.setDeadband(0.15);
+    m_driveXConditioning.setExponent(2);
+    m_driveYConditioning.setDeadband(0.15);
+    m_driveYConditioning.setExponent(2);
+    m_turnConditioning.setDeadband(0.2);
+    m_turnConditioning.setExponent(1.4);
     configureBindings();
     
 
     // Configure default commands\
     //UNCOMMENT LATER
-    m_robotDrive.setDefaultCommand(
+    //m_robotDrive.setDefaultCommand(
         // The left stick controls translation of the robot.
         // Turning is controlled by the X axis of the right stick.
         
-        new RunCommand(
+        //new RunCommand(
           
-            () -> m_robotDrive.drive(driveControl(),
-                fieldRelative, false),
-            m_robotDrive));
+            //() -> m_robotDrive.drive(driveControl(),
+            //    fieldRelative),
+            //m_robotDrive));
     //change if in comp
     //boolean isCompetition = false;
     //NamedCommands.registerCommand("shootAlgae", shootAlgae());
@@ -144,9 +154,10 @@ public class RobotContainer {
     // pressed,
     // cancelling on release.
     // m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
-
-    //m_armController.rightTrigger(0.15).whileTrue(m_RetractAlgaeLiftCommand);
-    //m_armController.leftTrigger(0.15).whileTrue(m_ExtendAlgaeLiftCommand);
+    m_robotDrive.setDefaultCommand(new TeleOpDriveCommand(m_robotDrive, () -> getDriveXInput(), () -> getDriveYInput(), () -> getTurnInput(),
+    () -> false));
+    m_armController.rightTrigger(0.15).whileTrue(m_RetractAlgaeLiftCommand);
+    m_armController.leftTrigger(0.15).whileTrue(m_ExtendAlgaeLiftCommand);
 
     m_driverController.y().onTrue(new InstantCommand(() -> fieldRelative = false));
     m_driverController.x().onTrue(new InstantCommand(() -> fieldRelative = true));
@@ -157,8 +168,8 @@ public class RobotContainer {
     // m_armController.b().whileTrue(m_BSCommand);
 
     // you would want these uncomented if you want a working lift
-    //m_armController.rightBumper().whileTrue(m_ClimbExtendCommand);
-    //m_armController.leftBumper().whileTrue(m_ClimbRetractCommand);
+    m_armController.rightBumper().whileTrue(m_ClimbExtendCommand);
+    m_armController.leftBumper().whileTrue(m_ClimbRetractCommand);
 
     //might work (potentail problem child)
     //if (RobotContainer.m_armController.a() != null) {
@@ -171,11 +182,11 @@ public class RobotContainer {
     //}
 
     //m_armController.a().whileTrue(m_ShootNoteCommand);
-    /*m_armController.a().whileTrue(m_IntakeAlgaeCommand);
+    m_armController.a().whileTrue(m_IntakeAlgaeCommand);
     m_armController.b().whileTrue(m_ShootAlgaeCommand);
 
     m_armController.x().whileTrue(m_IntakeCoralCommand);
-    m_armController.y().whileTrue(m_ShootCoralCommand);*/
+    m_armController.y().whileTrue(m_ShootCoralCommand);
     // m_driverController.b().whileTrue(m_BCommand);
 
     //chooser = new SendableChooser<Command>();
@@ -207,12 +218,15 @@ public class RobotContainer {
     speeds.vyMetersPerSecond=-MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband);
     speeds.vxMetersPerSecond=-MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband);
     speeds.omegaRadiansPerSecond=MathUtil.applyDeadband(m_driverController.getRightX(), OIConstants.kDriveDeadband);
+    SmartDashboard.putNumber("dtxSpeed", speeds.vxMetersPerSecond);
+    SmartDashboard.putNumber("dtySpeed", speeds.vyMetersPerSecond);
+    SmartDashboard.putNumber("dtaSpeed", speeds.omegaRadiansPerSecond);
     return speeds;
   }
-  public void teleDrive(ChassisSpeeds speed, boolean fieldRel, boolean rateLimit){
+  /*public void teleDrive(ChassisSpeeds speed, boolean fieldRel, boolean rateLimit){
     speed=driveControl();
     m_robotDrive.drive(speed, fieldRel, rateLimit);
-  }
+  }*/
   //public Command time() {
     // An example command will be run in autonomous
     //return new StartEndCommand(() -> {
@@ -237,7 +251,27 @@ public class RobotContainer {
 
 
   }*/
+  public double getDriveXInput()
+  {
+    // We getY() here because of the FRC coordinate system being turned 90 degrees
+    return m_driveXConditioning.condition(-m_driverController.getLeftY())
+            * 4
+            * 1;
+  }
+  public double getDriveYInput()
+  {
+    // We getX() here becasuse of the FRC coordinate system being turned 90 degrees
+    return m_driveYConditioning.condition(-m_driverController.getLeftX())
+            * 4
+            * 1;
+  }
 
+  public double getTurnInput()
+  {
+    return m_turnConditioning.condition(-m_driverController.getRightX())
+            * Math.PI
+            * 1;
+  }
   /*public Command time3() {
     // Auton option 3 shoots then moves back
     
@@ -271,7 +305,7 @@ public class RobotContainer {
     // An example command will be run in autonomous
     //return new IntakeCoralCommand(m_CoralSubsystem).withTimeout(1.5);
   }*/
-  public Command stopshoot() {
+  /*public Command stopshoot() {
     // An example command will be run in autonomous
 
     return new StartEndCommand(() -> {
@@ -283,7 +317,7 @@ public class RobotContainer {
       //m_CoralSubsystem.feed(0);
       //m_ShooterSubsystem.shoot(0);
     }).withTimeout(1);
-  }
+  }*/
 
   //public Command move(double duration, double xdir, double ydir) {
     // for x/ydir 0 ==no movement -1 == backward/right 1 == forward/left

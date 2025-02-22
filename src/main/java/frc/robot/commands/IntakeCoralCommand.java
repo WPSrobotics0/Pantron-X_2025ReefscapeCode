@@ -9,19 +9,19 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.CoralSubsystem;
 
 public class IntakeCoralCommand extends Command {
-  private CoralSubsystem m_shooter;
+  private CoralSubsystem m_Coral;
   /** Creates a new IntakeNoteCommand. */
-  public IntakeCoralCommand(CoralSubsystem shooter) {
+  public IntakeCoralCommand(CoralSubsystem coral) {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(shooter);
-    m_shooter = shooter;
+    addRequirements(coral);
+    m_Coral = coral;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
     //m_shooter.setShooterSpeed(0.5);
-    m_shooter.setFeederSpeed(1);
+    m_Coral.setFeederSpeed(-1);
     
   }
 
@@ -33,7 +33,7 @@ public class IntakeCoralCommand extends Command {
   @Override
   public void end(boolean interrupted) {
     //m_shooter.setShooterSpeed(0);
-    m_shooter.setFeederSpeed(0);
+    m_Coral.setFeederSpeed(0);
     
 
   }

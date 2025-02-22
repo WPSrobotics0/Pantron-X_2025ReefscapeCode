@@ -29,9 +29,9 @@ public class algaeSubsystem extends SubsystemBase {
   };
 
   //private final SparkMax m_leftShooter = new SparkMax(SubsystemConstants.kLeftShooterCanId, MotorType.kBrushed);
-  private final SparkMax m_leftFeeder = new SparkMax(SubsystemConstants.kLeftFeederCanId, MotorType.kBrushless);
+  private final SparkMax m_leftFeeder = new SparkMax(SubsystemConstants.kLeftAlgaeCanId, MotorType.kBrushless);
   //private final SparkMax m_rightShooter = new SparkMax(SubsystemConstants.kRightShooterCanId, MotorType.kBrushed);
-  private final SparkMax m_rightFeeder = new SparkMax(SubsystemConstants.kRightFeederCanId, MotorType.kBrushless);
+  private final SparkMax m_rightFeeder = new SparkMax(SubsystemConstants.kRightAlgaeCanId, MotorType.kBrushless);
   private final SparkMax m_AlgaeLift = new SparkMax(SubsystemConstants.kAlgaeLiftCanId, MotorType.kBrushless);
   public int shootMode=3;
   public double shootSpeed=1.0;

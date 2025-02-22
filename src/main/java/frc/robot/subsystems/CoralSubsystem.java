@@ -29,9 +29,9 @@ public class CoralSubsystem extends SubsystemBase {
   };
 
   //private final SparkMax m_leftShooter = new SparkMax(SubsystemConstants.kLeftShooterCanId, MotorType.kBrushed);
-  private final SparkMax m_leftFeeder = new SparkMax(SubsystemConstants.kLeftShooterCanId, MotorType.kBrushed);
+  private final SparkMax m_leftFeeder = new SparkMax(SubsystemConstants.kLeftCoralCanId, MotorType.kBrushless);
   //private final SparkMax m_rightShooter = new SparkMax(SubsystemConstants.kRightShooterCanId, MotorType.kBrushed);
-  private final SparkMax m_rightFeeder = new SparkMax(SubsystemConstants.kRightShooterCanId, MotorType.kBrushed);
+  private final SparkMax m_rightFeeder = new SparkMax(SubsystemConstants.kRightCoralCanId, MotorType.kBrushless);
   public int shootMode=3;
   public double shootSpeed=1.0;
 
