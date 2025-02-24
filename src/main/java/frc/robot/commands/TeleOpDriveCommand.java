@@ -16,8 +16,7 @@ import frc.robot.subsystems.DriveSubsystem;
 
 public class TeleOpDriveCommand extends Command {
   private DriveSubsystem m_Drive;
-  private int ticks;
-  private int threshold;
+  
   double getRightTriggerAxis;
   private Supplier<Double> m_xJoystickSupplier;
   private Supplier<Double> m_yJoystickSupplier;
