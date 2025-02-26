@@ -38,7 +38,7 @@ public class MAXSwerveModule {
 
   // private final SparkClosedLoopController m_drivingPIDController;
   private final SparkClosedLoopController m_turningPIDController;
-  
+  private final double m_angOffset;
   // private static final double kWheelRadius = 2.0 * 0.0254;
   private static final double kGearboxRatio = 1.0 / 6.12;
   private SwerveModuleState m_desiredState = new SwerveModuleState(0.0, new Rotation2d());
@@ -59,15 +59,16 @@ public class MAXSwerveModule {
    * MAXSwerve Module built with NEOs, SPARKS MAX, and a Through Bore
    * Encoder.
    */
-  public MAXSwerveModule(int motorAssembly)
+  public MAXSwerveModule(int motorAssembly, double angOffset)
     {
-        this(motorAssembly, motorAssembly+ 10);
+        this(motorAssembly, motorAssembly+ 10, angOffset);
     }
-  private MAXSwerveModule(int drivingCANId, int turningCANId) {
+  private MAXSwerveModule(int drivingCANId, int turningCANId, double angOffset) {
     m_drivingSparkMax = new SparkMax(drivingCANId, MotorType.kBrushless);
     m_turningSparkMax = new SparkMax(turningCANId, MotorType.kBrushless);
     double drivingFactor = ModuleConstants.kWheelDiameterMeters * Math.PI
                     / ModuleConstants.kDrivingMotorReduction;
+    m_angOffset=angOffset;
     //double turningFactor = 2 * Math.PI;
     double drivingVelocityFeedForward = 1 / ModuleConstants.kDriveWheelFreeSpeedRps;
     // Factory reset, so we get the SPARKS MAX to a known state before configuring
@@ -230,7 +231,7 @@ public class MAXSwerveModule {
         // convert from absolute Thrifty coder turning counter-clockwise as positive to
         //  relative encoder in assembly turning clockwise as positive
 
-        double startingAngle =  - getAbsoluteEncoder().getRadians();
+        double startingAngle =m_angOffset  - getAbsoluteEncoder().getRadians();
     
         if (startingAngle < 0)
         {
@@ -243,6 +244,6 @@ public class MAXSwerveModule {
   private Rotation2d getAbsoluteAngle()
   {
     // return new Rotation2d(m_turningEncoder.getPosition());
-    return new Rotation2d(m_turningRelativeEncoder.getPosition());
+    return new Rotation2d(m_turningEncoder.getPosition());
   }
 }

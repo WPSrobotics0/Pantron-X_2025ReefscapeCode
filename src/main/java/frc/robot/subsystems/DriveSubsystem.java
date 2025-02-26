@@ -5,10 +5,9 @@
 //COMPLETELY BROKEN UNTIL GYRO SET UP
 
 package frc.robot.subsystems;
+import com.studica.frc.AHRS;
+import com.studica.frc.AHRS.NavXComType;
 
-import edu.wpi.first.hal.FRCNetComm.tInstances;
-import edu.wpi.first.hal.FRCNetComm.tResourceType;
-import edu.wpi.first.hal.HAL;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 
@@ -24,13 +23,27 @@ public class DriveSubsystem extends SubsystemBase {
   
   public static final double kMaxSpeed = 3.0; 
   public static final double kMaxAngularSpeed = Math.PI;
-  private final MAXSwerveModule m_frontLeft = new MAXSwerveModule(DriveConstants.kFrontLeftDrivingCanId);
-  private final MAXSwerveModule m_frontRight = new MAXSwerveModule(DriveConstants.kFrontRightDrivingCanId);
+  
+  private final MAXSwerveModule m_frontLeft = new MAXSwerveModule(
+      DriveConstants.kFrontLeftDrivingCanId,
+      
+      DriveConstants.kFrontLeftChassisAngularOffset);
 
-  private final MAXSwerveModule m_rearLeft = new MAXSwerveModule(DriveConstants.kRearLeftDrivingCanId);
+  private final MAXSwerveModule m_frontRight = new MAXSwerveModule(
+      DriveConstants.kFrontRightDrivingCanId,
+      
+      DriveConstants.kFrontRightChassisAngularOffset);
 
-  private final MAXSwerveModule m_rearRight = new MAXSwerveModule(DriveConstants.kRearRightDrivingCanId);
+  private final MAXSwerveModule m_rearLeft = new MAXSwerveModule(
+      DriveConstants.kRearLeftDrivingCanId,
+      
+      DriveConstants.kBackLeftChassisAngularOffset);
 
+  private final MAXSwerveModule m_rearRight = new MAXSwerveModule(DriveConstants.kRearRightDrivingCanId, DriveConstants.kBackRightChassisAngularOffset);
+  // private double m_currentRotation = 0.0;
+  // private double m_currentTranslationDir = 0.0;
+  // private double m_currentTranslationMag = 0.0;
+  private final AHRS gyro = new AHRS(NavXComType.kMXP_SPI);
   private SwerveDriveOdometry m_Odometry = new SwerveDriveOdometry(
     DriveConstants.kDriveKinematics,
     getAngle(),
@@ -43,8 +56,9 @@ public class DriveSubsystem extends SubsystemBase {
 
   /** Creates a new DriveSubsystem. */
   public DriveSubsystem() {
-    HAL.report(tResourceType.kResourceType_RobotDrive, tInstances.kRobotDriveSwerve_MaxSwerve);
+    //HAL.report(tResourceType.kResourceType_RobotDrive, tInstances.kRobotDriveSwerve_MaxSwerve);
     zeroHeading();
+    resetSteeringMotorsToAbsolute();
   }
 
   @Override
@@ -106,7 +120,6 @@ public class DriveSubsystem extends SubsystemBase {
     double ySpeed=speeds.vyMetersPerSecond *DriveConstants.kMaxSpeedMetersPerSecond;
     double xSpeed=speeds.vxMetersPerSecond *DriveConstants.kMaxSpeedMetersPerSecond;
     double rot = speeds.omegaRadiansPerSecond *DriveSubsystem.kMaxAngularSpeed;
-
     var swerveModuleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(
         new ChassisSpeeds(xSpeed, ySpeed, rot));
     SwerveDriveKinematics.desaturateWheelSpeeds(
@@ -115,8 +128,9 @@ public class DriveSubsystem extends SubsystemBase {
     m_frontRight.setDesiredState(swerveModuleStates[1]);
     m_rearLeft.setDesiredState(swerveModuleStates[2]);
     m_rearRight.setDesiredState(swerveModuleStates[3]);
+    
   }
-//resetSteeringMotorsToAbsolute(); ADD THIS
+
   /**
    * Sets the swerve ModuleStates.
    *
@@ -147,6 +161,6 @@ public class DriveSubsystem extends SubsystemBase {
     }
 
   public Rotation2d getAngle() {
-    return Rotation2d.fromDegrees(0);
+    return Rotation2d.fromDegrees(-gyro.getAngle());
   }
 }

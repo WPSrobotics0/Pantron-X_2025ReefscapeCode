@@ -35,10 +35,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 //import edu.wpi.first.wpilibj.event.EventLoop;
 //import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 //import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.Command;
+//import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.RunCommand;
-import edu.wpi.first.wpilibj2.command.StartEndCommand;
+//import edu.wpi.first.wpilibj2.command.RunCommand;
+//import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
@@ -56,7 +56,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   //private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final algaeSubsystem m_AlgaeSubsystem = new algaeSubsystem();
-  private final DriveSubsystem m_robotDrive = new DriveSubsystem();
+  private final DriveSubsystem m_DriveSubsystem = new DriveSubsystem();
   private final CoralSubsystem m_CoralSubsystem = new CoralSubsystem();
   private final ClimbSubsystem m_ClimbSubsystem = new ClimbSubsystem();
   private final IntakeCoralCommand m_IntakeCoralCommand = new IntakeCoralCommand(m_CoralSubsystem);
@@ -69,7 +69,7 @@ public class RobotContainer {
   private final RetractAlgaeLiftCommand m_RetractAlgaeLiftCommand=new RetractAlgaeLiftCommand(m_AlgaeSubsystem);
   public final ChassisSpeeds speeds= new ChassisSpeeds(0.0, 0.0, 0);
   //private final SendableChooser<Command> autoChooser;
-  private final Robot m_robot;
+ //rivate final Robot m_robot;
   private final Conditioning m_driveXConditioning = new Conditioning();
   private final Conditioning m_driveYConditioning = new Conditioning();
   private final Conditioning m_turnConditioning = new Conditioning();
@@ -93,9 +93,9 @@ public class RobotContainer {
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   
-  public RobotContainer(Robot robot) {
+  public RobotContainer(){//Robot robot) {
     // Configure the trigger bindings
-    m_robot=robot;
+    //m_robot=robot;
     m_driveXConditioning.setDeadband(0.15);
     m_driveXConditioning.setExponent(2);
     m_driveYConditioning.setDeadband(0.15);
@@ -154,8 +154,10 @@ public class RobotContainer {
     // pressed,
     // cancelling on release.
     // m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
-    m_robotDrive.setDefaultCommand(new TeleOpDriveCommand(m_robotDrive, () -> getDriveXInput(), () -> getDriveYInput(), () -> getTurnInput(),
-    () -> false));
+    m_DriveSubsystem.setDefaultCommand(new TeleOpDriveCommand(m_DriveSubsystem, 
+    () -> -m_driverController.getLeftY(), 
+    () -> -m_driverController.getLeftX(), 
+    () -> m_driverController.getRightX(), () -> true));
     m_armController.rightTrigger(0.15).whileTrue(m_RetractAlgaeLiftCommand);
     m_armController.leftTrigger(0.15).whileTrue(m_ExtendAlgaeLiftCommand);
 

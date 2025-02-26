@@ -4,30 +4,30 @@
 
 package frc.robot;
 
-import com.revrobotics.spark.SparkMax;
-import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
-import com.revrobotics.spark.config.SparkMaxConfig;
+// import com.revrobotics.spark.SparkMax;
+// import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
+// import com.revrobotics.spark.config.SparkMaxConfig;
 
-import com.studica.frc.AHRS;
-import com.studica.frc.AHRS.NavXComType;
+// import com.studica.frc.AHRS;
+// import com.studica.frc.AHRS.NavXComType;
 
 import edu.wpi.first.hal.SimDouble;
 import edu.wpi.first.hal.simulation.SimDeviceDataJNI;
 //import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+// import edu.wpi.first.wpilibj.XboxController;
+//import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 //import edu.wpi.first.wpilibj.interfaces.Gyro;
 //import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
-import com.revrobotics.spark.SparkBase.PersistMode;
+// import com.revrobotics.spark.SparkBase.PersistMode;
 //import frc.robot.subsystems.DriveSubsystem;
 //import edu.wpi.first.cameraserver.CameraServer;
-import com.revrobotics.spark.SparkLowLevel.MotorType;
-import com.revrobotics.spark.SparkBase.ResetMode;
-import frc.robot.RobotContainer;
+// import com.revrobotics.spark.SparkLowLevel.MotorType;
+// import com.revrobotics.spark.SparkBase.ResetMode;
+// import frc.robot.RobotContainer;
 //import com.studica.frc.AHRS;
 //import com.studica.frc.AHRS.NavXComType;
 /**
@@ -51,7 +51,7 @@ public class Robot extends TimedRobot {
    * for any
    * initialization code.
    */
-  private final AHRS gyro = new AHRS(NavXComType.kMXP_SPI);
+  //private final AHRS gyro = new AHRS(NavXComType.kMXP_SPI);
   private RobotContainer m_robotContainer;
   //SparkMax rightLeader;
   //XboxController joystick;
@@ -77,7 +77,7 @@ public class Robot extends TimedRobot {
         .apply(globalConfig)
         .inverted(true);
     rightLeader.configure(rightLeaderConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);*/
-    m_robotContainer=new RobotContainer(this);
+    m_robotContainer=new RobotContainer();//this);
   }
 
 
