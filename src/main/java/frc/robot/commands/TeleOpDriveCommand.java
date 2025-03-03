@@ -3,8 +3,8 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.commands;
-import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+//import edu.wpi.first.networktables.DoublePublisher;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import java.util.function.Supplier;
@@ -22,6 +22,7 @@ public class TeleOpDriveCommand extends Command {
   private Supplier<Double> m_yJoystickSupplier;
   private Supplier<Double> m_turnJoystickSupplier;
   private Supplier<Boolean> m_isTeleopEnabled;
+  
   int convRightTriggerAxis;
   /** Creates a new ShootNote. */
   public TeleOpDriveCommand(DriveSubsystem drive,Supplier<Double> xJoystick, Supplier<Double> yJoystick, Supplier<Double> turnJoystick,
@@ -49,21 +50,34 @@ public class TeleOpDriveCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-
+    SmartDashboard.putNumber("Controll y power", m_yJoystickSupplier.get());
     if(m_isTeleopEnabled.get())
-      m_Drive.drive(getMotorSpeeds(), false);
-    
-    
+      setMotorSpeeds();
   }
-  public ChassisSpeeds getMotorSpeeds(){
-    ChassisSpeeds speeds=new ChassisSpeeds();
-    speeds.vyMetersPerSecond=-MathUtil.applyDeadband(m_xJoystickSupplier.get(), OIConstants.kDriveDeadband);
-    speeds.vxMetersPerSecond=-MathUtil.applyDeadband(m_yJoystickSupplier.get(), OIConstants.kDriveDeadband);
-    speeds.omegaRadiansPerSecond=MathUtil.applyDeadband(m_turnJoystickSupplier.get(), OIConstants.kDriveDeadband);
-    SmartDashboard.putNumber("dtxSpeed", speeds.vxMetersPerSecond);
-    SmartDashboard.putNumber("dtySpeed", speeds.vyMetersPerSecond);
-    SmartDashboard.putNumber("dtaSpeed", speeds.omegaRadiansPerSecond);
-    return speeds;
+
+  public void setMotorSpeeds(){
+    var yJoystickSpeed = m_yJoystickSupplier.get();
+    if (Math.abs(yJoystickSpeed) < OIConstants.kDriveDeadband)
+    {
+      yJoystickSpeed = 0.0;
+    }
+
+    var xJoystickSpeed = m_xJoystickSupplier.get();
+    if (Math.abs(xJoystickSpeed) < OIConstants.kDriveDeadband)
+    {
+      xJoystickSpeed = 0.0;
+    }
+
+    var rotJoystickSpeed = m_turnJoystickSupplier.get();
+    if (Math.abs(rotJoystickSpeed) < OIConstants.kDriveDeadband)
+    {
+      rotJoystickSpeed = 0.0;
+    }
+
+    SmartDashboard.putNumber("dtxSpeed", xJoystickSpeed);
+    SmartDashboard.putNumber("dtySpeed", yJoystickSpeed);
+    SmartDashboard.putNumber("dtaSpeed", rotJoystickSpeed);
+    m_Drive.drive(yJoystickSpeed, xJoystickSpeed, rotJoystickSpeed, false);
   }
   // Called once the command ends or is interrupted.
   @Override

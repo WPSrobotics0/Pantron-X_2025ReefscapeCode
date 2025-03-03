@@ -31,15 +31,21 @@ import frc.robot.commands.TeleOpDriveCommand;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+
+//FOR TEMPLATE
+import edu.wpi.first.wpilibj.XboxController.Button;
+
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 //import edu.wpi.first.wpilibj.event.EventLoop;
 //import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 //import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 //import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 //import edu.wpi.first.wpilibj2.command.RunCommand;
 //import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 
@@ -96,14 +102,25 @@ public class RobotContainer {
   public RobotContainer(){//Robot robot) {
     // Configure the trigger bindings
     //m_robot=robot;
+
+    /*PREVIOUS CODE
     m_driveXConditioning.setDeadband(0.15);
     m_driveXConditioning.setExponent(2);
     m_driveYConditioning.setDeadband(0.15);
     m_driveYConditioning.setExponent(2);
     m_turnConditioning.setDeadband(0.2);
     m_turnConditioning.setExponent(1.4);
+    */
     configureBindings();
     
+    //TEMPLATE CODE
+    m_DriveSubsystem.setDefaultCommand(new RunCommand(
+      () -> m_DriveSubsystem.drive(
+        -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband),
+        -MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband),
+        -MathUtil.applyDeadband(m_driverController.getRightX(), OIConstants.kDriveDeadband),
+        true),
+      m_DriveSubsystem));
 
     // Configure default commands\
     //UNCOMMENT LATER
@@ -154,10 +171,13 @@ public class RobotContainer {
     // pressed,
     // cancelling on release.
     // m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
-    m_DriveSubsystem.setDefaultCommand(new TeleOpDriveCommand(m_DriveSubsystem, 
+    
+    //PREVIOUS CODE
+    /*m_DriveSubsystem.setDefaultCommand(new TeleOpDriveCommand(m_DriveSubsystem, 
     () -> -m_driverController.getLeftY(), 
     () -> -m_driverController.getLeftX(), 
     () -> m_driverController.getRightX(), () -> true));
+    */
     m_armController.rightTrigger(0.15).whileTrue(m_RetractAlgaeLiftCommand);
     m_armController.leftTrigger(0.15).whileTrue(m_ExtendAlgaeLiftCommand);
 
@@ -216,7 +236,8 @@ public class RobotContainer {
   //  return autoChooser.getSelected();
   //}
   
-  public ChassisSpeeds driveControl(){
+  //PREVIOUS CODE
+  /*public ChassisSpeeds driveControl(){
     speeds.vyMetersPerSecond=-MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband);
     speeds.vxMetersPerSecond=-MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband);
     speeds.omegaRadiansPerSecond=MathUtil.applyDeadband(m_driverController.getRightX(), OIConstants.kDriveDeadband);
@@ -253,7 +274,9 @@ public class RobotContainer {
 
 
   }*/
-  public double getDriveXInput()
+
+  //PREVIOUS CODE
+  /*public double getDriveXInput()
   {
     // We getY() here because of the FRC coordinate system being turned 90 degrees
     return m_driveXConditioning.condition(-m_driverController.getLeftY())
@@ -274,6 +297,7 @@ public class RobotContainer {
             * Math.PI
             * 1;
   }
+ */
   /*public Command time3() {
     // Auton option 3 shoots then moves back
     

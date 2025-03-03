@@ -12,8 +12,8 @@ import frc.robot.subsystems.CoralSubsystem;
 
 public class ShootCoralCommand extends Command {
   private CoralSubsystem m_Coral;
-  private int ticks;
-  private int threshold;
+  // private int ticks;
+  // private int threshold;
   double getRightTriggerAxis;
   int convRightTriggerAxis;
   /** Creates a new ShootNote. */
