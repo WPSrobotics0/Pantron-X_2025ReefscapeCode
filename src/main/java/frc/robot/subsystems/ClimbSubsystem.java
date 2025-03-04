@@ -34,6 +34,7 @@ public class ClimbSubsystem extends SubsystemBase {
   private static double kClimbI = 0;
   private static double kClimbD = 0;
   private static double kClimbFF = 0;
+  private final double kClimbG=-0.054;
 
   /** Creates a new ClimbSubsystem. */
   public ClimbSubsystem() {
@@ -86,14 +87,15 @@ public class ClimbSubsystem extends SubsystemBase {
   }
 
   public void setExtendSpeed(double speed) {
-    m_climbMotor1.set(speed);
-    m_climbMotor2.set(-1*speed);
+    double realOutput=speed+kClimbG;
+    m_climbMotor1.set(realOutput);
+    m_climbMotor2.set(-1*realOutput);
   }
 
-  public void setRetractSpeed(double speed) {
-    m_climbMotor1.set(-1 * speed);
-    m_climbMotor2.set(speed);
-  }
+  // public void setRetractSpeed(double speed) {
+  //   m_climbMotor1.set(-1 * speed);
+  //   m_climbMotor2.set(speed);
+  // }
 
   public void smartDashboardInit()
   {
@@ -128,6 +130,7 @@ public class ClimbSubsystem extends SubsystemBase {
         
         SmartDashboard.putBoolean("\"Go To Climb Target", false);
       }
+      SmartDashboard.putNumber("Climb Power", m_climbMotor1.getAppliedOutput());
   }
 
   public void goToPosition(double position) {

@@ -69,8 +69,8 @@ public class RobotContainer {
   private final IntakeCoralCommand m_IntakeCoralCommand = new IntakeCoralCommand(m_CoralSubsystem);
   private final ShootCoralCommand m_ShootCoralCommand = new ShootCoralCommand(m_CoralSubsystem);
   private final ScoreCoralCommand m_ScoreCoralCommand = new ScoreCoralCommand(m_CoralSubsystem);
-  private final ClimbExtendCommand m_ClimbExtendCommand = new ClimbExtendCommand(m_ClimbSubsystem);
-  private final ClimbRetractCommand m_ClimbRetractCommand = new ClimbRetractCommand(m_ClimbSubsystem);
+  private final ClimbExtendCommand m_ClimbExtendCommand = new ClimbExtendCommand(m_ClimbSubsystem, ()->m_armController.getLeftY());
+  // private final ClimbRetractCommand m_ClimbRetractCommand = new ClimbRetractCommand(m_ClimbSubsystem);
   private final IntakeAlgaeCommand m_IntakeAlgaeCommand = new IntakeAlgaeCommand(m_AlgaeSubsystem);
   private final ShootAlgaeCommand m_ShootAlgaeCommand = new ShootAlgaeCommand(m_AlgaeSubsystem);
   private final ExtendAlgaeLiftCommand m_ExtendAlgaeLiftCommand = new ExtendAlgaeLiftCommand(m_AlgaeSubsystem);
@@ -193,8 +193,9 @@ public class RobotContainer {
     // m_armController.b().whileTrue(m_BSCommand);
 
     // you would want these uncomented if you want a working lift
-    m_armController.rightBumper().whileTrue(m_ClimbExtendCommand);
-    m_armController.leftBumper().whileTrue(m_ClimbRetractCommand);
+    //m_armController.rightBumper().whileTrue(m_ClimbExtendCommand);
+    m_ClimbSubsystem.setDefaultCommand(m_ClimbExtendCommand);
+    // m_armController.leftBumper().whileTrue(m_ClimbRetractCommand);
 
     //might work (potentail problem child)
     //if (RobotContainer.m_armController.a() != null) {
