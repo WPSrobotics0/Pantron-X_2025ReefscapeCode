@@ -17,7 +17,8 @@ public class ExtendAlgaeLiftCommand extends Command {
   double getRightTriggerAxis;
   int convRightTriggerAxis;
   /** Creates a new ShootNote. */
-  public ExtendAlgaeLiftCommand(algaeSubsystem algae) {
+  public ExtendAlgaeLiftCommand(algaeSubsystem algae
+  ) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(algae);
     m_Algae = algae;
@@ -29,7 +30,7 @@ public class ExtendAlgaeLiftCommand extends Command {
     //getRightTriggerAxis=RobotContainer.m_armController.getRightTriggerAxis(); 
     //m_shooter.setShooterSpeed(-1);
     //m_shooter.setShooterSpeed(-1*m_shooter.shootSpeed);
-    m_Algae.setLiftSpeed(-1*.9);
+    m_Algae.setLiftSpeed(-1*.05);
     SmartDashboard.putBoolean("outtakeon", true);
     SmartDashboard.putNumber("num", m_Algae.shootSpeed);
   }

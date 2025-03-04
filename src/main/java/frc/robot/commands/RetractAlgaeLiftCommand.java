@@ -21,7 +21,7 @@ public class RetractAlgaeLiftCommand extends Command {
   @Override
   public void initialize() {
     //m_shooter.setShooterSpeed(0.5);
-    m_Algae.setLiftSpeed(.9);
+    m_Algae.setLiftSpeed(.25);
     //SmartDashboard.putBoolean("intakeon", true);
   }
 

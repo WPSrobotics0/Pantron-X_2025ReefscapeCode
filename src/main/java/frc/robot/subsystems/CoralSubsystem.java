@@ -12,6 +12,9 @@ import com.revrobotics.spark.SparkBase;
 //import com.revrobotics.spark.SparkBase;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.SubsystemConstants;
 
@@ -35,6 +38,8 @@ public class CoralSubsystem extends SubsystemBase {
   public int shootMode=3;
   public double shootSpeed=1.0;
 
+  private final DigitalInput m_sensor= new DigitalInput(9);
+
   /** Creates a new ShooterSubsystem. */
   public CoralSubsystem() {
     SparkMaxConfig globalConfig = new SparkMaxConfig();
@@ -45,8 +50,10 @@ public class CoralSubsystem extends SubsystemBase {
         .idleMode(IdleMode.kBrake);
     leaderConfig
         .apply(globalConfig);
+        leaderConfig.inverted(true);
     followerConfig
         .apply(globalConfig);
+        followerConfig.inverted(true);
     //m_leftShooter.configure(config,SparkBase.ResetMode.kResetSafeParameters,SparkBase.PersistMode.kPersistParameters);
     m_leftFeeder.configure(leaderConfig,SparkBase.ResetMode.kResetSafeParameters,SparkBase.PersistMode.kPersistParameters);
     //config.follow(m_leftShooter,true);
@@ -64,6 +71,8 @@ public class CoralSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
+    SmartDashboard.putBoolean("coral sensor",m_sensor.get());
+    
     // This method will be called once per scheduler run
   }
 
@@ -73,6 +82,9 @@ public class CoralSubsystem extends SubsystemBase {
   public void setFeederSpeed(double speed) {
     m_leftFeeder.set(speed);
     m_rightFeeder.set(-1*speed);
+  }
+  public Boolean getSensorInput(){
+    return m_sensor.get();
   }
 
   //public void shoot(double speed) {

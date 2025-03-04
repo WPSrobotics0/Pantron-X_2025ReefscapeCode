@@ -13,6 +13,7 @@ import frc.robot.commands.ExtendAlgaeLiftCommand;
 //import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.IntakeCoralCommand;
 import frc.robot.commands.RetractAlgaeLiftCommand;
+import frc.robot.commands.ScoreCoralCommand;
 import frc.robot.commands.ShootCoralCommand;
 import frc.robot.subsystems.ClimbSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
@@ -67,6 +68,7 @@ public class RobotContainer {
   private final ClimbSubsystem m_ClimbSubsystem = new ClimbSubsystem();
   private final IntakeCoralCommand m_IntakeCoralCommand = new IntakeCoralCommand(m_CoralSubsystem);
   private final ShootCoralCommand m_ShootCoralCommand = new ShootCoralCommand(m_CoralSubsystem);
+  private final ScoreCoralCommand m_ScoreCoralCommand = new ScoreCoralCommand(m_CoralSubsystem);
   private final ClimbExtendCommand m_ClimbExtendCommand = new ClimbExtendCommand(m_ClimbSubsystem);
   private final ClimbRetractCommand m_ClimbRetractCommand = new ClimbRetractCommand(m_ClimbSubsystem);
   private final IntakeAlgaeCommand m_IntakeAlgaeCommand = new IntakeAlgaeCommand(m_AlgaeSubsystem);
@@ -74,6 +76,7 @@ public class RobotContainer {
   private final ExtendAlgaeLiftCommand m_ExtendAlgaeLiftCommand = new ExtendAlgaeLiftCommand(m_AlgaeSubsystem);
   private final RetractAlgaeLiftCommand m_RetractAlgaeLiftCommand=new RetractAlgaeLiftCommand(m_AlgaeSubsystem);
   public final ChassisSpeeds speeds= new ChassisSpeeds(0.0, 0.0, 0);
+  private final Trigger m_CoralSensor=new Trigger(()->m_CoralSubsystem.getSensorInput());
   //private final SendableChooser<Command> autoChooser;
  //rivate final Robot m_robot;
   private final Conditioning m_driveXConditioning = new Conditioning();
@@ -207,8 +210,9 @@ public class RobotContainer {
     m_armController.a().whileTrue(m_IntakeAlgaeCommand);
     m_armController.b().whileTrue(m_ShootAlgaeCommand);
 
-    m_armController.x().whileTrue(m_IntakeCoralCommand);
-    m_armController.y().whileTrue(m_ShootCoralCommand);
+    m_armController.x().and(m_CoralSensor.debounce(0.25).negate()).whileTrue(m_IntakeCoralCommand);
+    m_armController.start().whileTrue(m_ShootCoralCommand);
+    m_armController.y().whileTrue(m_ScoreCoralCommand);
     // m_driverController.b().whileTrue(m_BCommand);
 
     //chooser = new SendableChooser<Command>();

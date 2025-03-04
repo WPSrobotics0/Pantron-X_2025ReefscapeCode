@@ -21,7 +21,7 @@ public class IntakeCoralCommand extends Command {
   @Override
   public void initialize() {
     //m_shooter.setShooterSpeed(0.5);
-    m_Coral.setFeederSpeed(-1);
+    m_Coral.setFeederSpeed(-1*.5);
     
   }
 
@@ -37,7 +37,7 @@ public class IntakeCoralCommand extends Command {
     
 
   }
-
+  
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {

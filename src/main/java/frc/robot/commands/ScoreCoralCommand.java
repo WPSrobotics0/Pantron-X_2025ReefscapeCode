@@ -10,14 +10,14 @@ import edu.wpi.first.wpilibj2.command.Command;
 //import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.CoralSubsystem;
 
-public class ShootCoralCommand extends Command {
+public class ScoreCoralCommand extends Command {
   private CoralSubsystem m_Coral;
   // private int ticks;
   // private int threshold;
   double getRightTriggerAxis;
   int convRightTriggerAxis;
   /** Creates a new ShootNote. */
-  public ShootCoralCommand(CoralSubsystem coral) {
+  public ScoreCoralCommand(CoralSubsystem coral) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(coral);
     m_Coral = coral;
@@ -33,7 +33,7 @@ public class ShootCoralCommand extends Command {
     //threshold=25;
     SmartDashboard.putBoolean("outtakeon", true);
     SmartDashboard.putNumber("num", m_Coral.shootSpeed);
-    m_Coral.setFeederSpeed(0.8);
+    m_Coral.setFeederSpeed(-1*0.8);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
