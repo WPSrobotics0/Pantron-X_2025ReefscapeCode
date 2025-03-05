@@ -34,7 +34,7 @@ public class ClimbSubsystem extends SubsystemBase {
   private static double kClimbI = 0;
   private static double kClimbD = 0;
   private static double kClimbFF = 0;
-  private final double kClimbG=-0.054;
+  private final double kClimbG=-0.04;
 
   /** Creates a new ClimbSubsystem. */
   public ClimbSubsystem() {

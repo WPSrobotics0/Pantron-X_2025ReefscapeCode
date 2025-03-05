@@ -4,6 +4,8 @@
 
 package frc.robot.commands;
 
+import java.util.function.Supplier;
+
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 //import frc.robot.RobotContainer;
@@ -16,12 +18,13 @@ public class ExtendAlgaeLiftCommand extends Command {
   
   double getRightTriggerAxis;
   int convRightTriggerAxis;
+  private Supplier<Double> m_liftValue;
   /** Creates a new ShootNote. */
-  public ExtendAlgaeLiftCommand(algaeSubsystem algae
-  ) {
+  public ExtendAlgaeLiftCommand(algaeSubsystem algae, Supplier<Double> liftValue) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(algae);
     m_Algae = algae;
+    m_liftValue=liftValue;
   }
 
   // Called when the command is initially scheduled.
@@ -30,7 +33,7 @@ public class ExtendAlgaeLiftCommand extends Command {
     //getRightTriggerAxis=RobotContainer.m_armController.getRightTriggerAxis(); 
     //m_shooter.setShooterSpeed(-1);
     //m_shooter.setShooterSpeed(-1*m_shooter.shootSpeed);
-    m_Algae.setLiftSpeed(-1*.05);
+    m_Algae.setLiftSpeed(.30*m_liftValue.get());
     SmartDashboard.putBoolean("outtakeon", true);
     SmartDashboard.putNumber("num", m_Algae.shootSpeed);
   }
@@ -38,6 +41,9 @@ public class ExtendAlgaeLiftCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    m_Algae.setLiftSpeed(.30*m_liftValue.get());
+    SmartDashboard.putBoolean("outtakeon", true);
+    SmartDashboard.putNumber("num", m_Algae.shootSpeed);
     //getRightTriggerAxis=RobotContainer.m_armController.getRightTriggerAxis(); 
     /*
     if ((getRightTriggerAxis*100)%4==0){

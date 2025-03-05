@@ -7,12 +7,12 @@ package frc.robot;
 import frc.robot.Constants.OIConstants;
 //import frc.robot.Constants.SubsystemConstants;
 import frc.robot.commands.ClimbExtendCommand;
-import frc.robot.commands.ClimbRetractCommand;
+// import frc.robot.commands.ClimbRetractCommand;
 import frc.robot.commands.ExtendAlgaeLiftCommand;
 //import frc.robot.commands.Autos;
 //import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.IntakeCoralCommand;
-import frc.robot.commands.RetractAlgaeLiftCommand;
+// import frc.robot.commands.RetractAlgaeLiftCommand;
 import frc.robot.commands.ScoreCoralCommand;
 import frc.robot.commands.ShootCoralCommand;
 import frc.robot.subsystems.ClimbSubsystem;
@@ -22,7 +22,7 @@ import frc.robot.subsystems.CoralSubsystem;
 import frc.robot.subsystems.algaeSubsystem;
 import frc.robot.commands.ShootAlgaeCommand;
 import frc.robot.commands.IntakeAlgaeCommand;
-import frc.robot.commands.TeleOpDriveCommand;
+// import frc.robot.commands.TeleOpDriveCommand;
 //import com.revrobotics.spark.SparkLowLevel.MotorType;
 //import com.revrobotics.spark.SparkMax;
 
@@ -34,9 +34,9 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 
 //FOR TEMPLATE
-import edu.wpi.first.wpilibj.XboxController.Button;
+// import edu.wpi.first.wpilibj.XboxController.Button;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+// import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 //import edu.wpi.first.wpilibj.event.EventLoop;
 //import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 //import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -46,7 +46,7 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 //import edu.wpi.first.wpilibj2.command.RunCommand;
 //import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+// import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 
@@ -73,15 +73,15 @@ public class RobotContainer {
   // private final ClimbRetractCommand m_ClimbRetractCommand = new ClimbRetractCommand(m_ClimbSubsystem);
   private final IntakeAlgaeCommand m_IntakeAlgaeCommand = new IntakeAlgaeCommand(m_AlgaeSubsystem);
   private final ShootAlgaeCommand m_ShootAlgaeCommand = new ShootAlgaeCommand(m_AlgaeSubsystem);
-  private final ExtendAlgaeLiftCommand m_ExtendAlgaeLiftCommand = new ExtendAlgaeLiftCommand(m_AlgaeSubsystem);
-  private final RetractAlgaeLiftCommand m_RetractAlgaeLiftCommand=new RetractAlgaeLiftCommand(m_AlgaeSubsystem);
+  private final ExtendAlgaeLiftCommand m_ExtendAlgaeLiftCommand = new ExtendAlgaeLiftCommand(m_AlgaeSubsystem, ()->m_armController.getRightY());
+  //private final RetractAlgaeLiftCommand m_RetractAlgaeLiftCommand=new RetractAlgaeLiftCommand(m_AlgaeSubsystem);
   public final ChassisSpeeds speeds= new ChassisSpeeds(0.0, 0.0, 0);
   private final Trigger m_CoralSensor=new Trigger(()->m_CoralSubsystem.getSensorInput());
   //private final SendableChooser<Command> autoChooser;
  //rivate final Robot m_robot;
-  private final Conditioning m_driveXConditioning = new Conditioning();
-  private final Conditioning m_driveYConditioning = new Conditioning();
-  private final Conditioning m_turnConditioning = new Conditioning();
+  // private final Conditioning m_driveXConditioning = new Conditioning();
+  // private final Conditioning m_driveYConditioning = new Conditioning();
+  // private final Conditioning m_turnConditioning = new Conditioning();
   //private final aCommand m_ACommand = new aCommand(m_robotDrive);
   //private final bCommand m_BCommand = new bCommand(m_robotDrive);
   //private final asCommand m_ASCommand = new asCommand(m_ShooterSubsystem);
@@ -122,7 +122,7 @@ public class RobotContainer {
         -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband),
         -MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband),
         -MathUtil.applyDeadband(m_driverController.getRightX(), OIConstants.kDriveDeadband),
-        true),
+        false),
       m_DriveSubsystem));
 
     // Configure default commands\
@@ -149,7 +149,7 @@ public class RobotContainer {
     //SmartDashboard.putData("Auto Chooser", autoChooser);
   }
 
-  boolean fieldRelative = true;
+  // boolean fieldRelative = true;
 
   /**
    * Use this method to define your trigger->command mappings. Triggers can be
@@ -181,21 +181,22 @@ public class RobotContainer {
     () -> -m_driverController.getLeftX(), 
     () -> m_driverController.getRightX(), () -> true));
     */
-    m_armController.rightTrigger(0.15).whileTrue(m_RetractAlgaeLiftCommand);
-    m_armController.leftTrigger(0.15).whileTrue(m_ExtendAlgaeLiftCommand);
+    //m_armController.rightTrigger(0.15).whileTrue(m_RetractAlgaeLiftCommand);
+    //m_armController.leftTrigger(0.15).whileTrue(m_ExtendAlgaeLiftCommand);
 
-    m_driverController.y().onTrue(new InstantCommand(() -> fieldRelative = false));
-    m_driverController.x().onTrue(new InstantCommand(() -> fieldRelative = true));
+    // m_driverController.y().onTrue(new InstantCommand(() -> fieldRelative = false));
+    // m_driverController.x().onTrue(new InstantCommand(() -> fieldRelative = true));
 
-    //m_driverController.start().onTrue(new
-    //  InstantCommand(()->m_robotDrive.zeroHeading()));
+    m_driverController.start().onTrue(new
+      InstantCommand(()->m_DriveSubsystem.zeroHeading()));
     // m_armController.a().whileTrue(m_ASCommand);
     // m_armController.b().whileTrue(m_BSCommand);
 
     // you would want these uncomented if you want a working lift
     //m_armController.rightBumper().whileTrue(m_ClimbExtendCommand);
     m_ClimbSubsystem.setDefaultCommand(m_ClimbExtendCommand);
-    // m_armController.leftBumper().whileTrue(m_ClimbRetractCommand);
+    m_AlgaeSubsystem.setDefaultCommand(m_ExtendAlgaeLiftCommand);
+    //m_armController.leftBumper().whileTrue(m_ClimbRetractCommand);
 
     //might work (potentail problem child)
     //if (RobotContainer.m_armController.a() != null) {

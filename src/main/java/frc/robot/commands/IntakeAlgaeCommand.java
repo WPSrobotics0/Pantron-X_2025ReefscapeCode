@@ -29,7 +29,7 @@ public class IntakeAlgaeCommand extends Command {
     //getRightTriggerAxis=RobotContainer.m_armController.getRightTriggerAxis(); 
     //m_shooter.setShooterSpeed(-1);
     //m_shooter.setShooterSpeed(-1*m_shooter.shootSpeed);
-    m_Algae.setFeederSpeed(1*m_Algae.shootSpeed);
+    m_Algae.setFeederSpeed(1*.4);
     SmartDashboard.putBoolean("outtakeon", true);
     SmartDashboard.putNumber("num", m_Algae.shootSpeed);
   }
