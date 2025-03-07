@@ -4,16 +4,16 @@
 
 package frc.robot.commands;
 
-import java.util.function.Supplier;
+// import java.util.function.Supplier;
 
 //import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.algaeSubsystem;
+import frc.robot.subsystems.algaeLiftSubsystem;
 
 public class RetractAlgaeLiftCommand extends Command {
-  private algaeSubsystem m_Algae;
+  private algaeLiftSubsystem m_Algae;
   /** Creates a new IntakeNoteCommand. */
-  public RetractAlgaeLiftCommand(algaeSubsystem algae) {
+  public RetractAlgaeLiftCommand(algaeLiftSubsystem algae) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(algae);
     m_Algae = algae;

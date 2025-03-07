@@ -10,12 +10,12 @@ import frc.robot.subsystems.ClimbSubsystem;
 
 
 public class ClimbRetractCommand extends Command {
-  private ClimbSubsystem m_climb;
+  //private ClimbSubsystem m_climb;
   /** Creates a new ClimbCommand. */
   public ClimbRetractCommand(ClimbSubsystem climb) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(climb);
-    m_climb = climb;
+    //m_climb = climb;
 
   }
 

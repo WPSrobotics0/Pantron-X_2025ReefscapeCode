@@ -11,16 +11,16 @@ import edu.wpi.first.wpilibj2.command.Command;
 //import frc.robot.RobotContainer;
 //import frc.robot.subsystems.DriveSubsystem;
 //import frc.robot.subsystems.ShooterSubsystem;
-import frc.robot.subsystems.algaeSubsystem;
+import frc.robot.subsystems.algaeLiftSubsystem;
 
 public class ExtendAlgaeLiftCommand extends Command {
-  private algaeSubsystem m_Algae;
+  private algaeLiftSubsystem m_Algae;
   
   double getRightTriggerAxis;
   int convRightTriggerAxis;
   private Supplier<Double> m_liftValue;
   /** Creates a new ShootNote. */
-  public ExtendAlgaeLiftCommand(algaeSubsystem algae, Supplier<Double> liftValue) {
+  public ExtendAlgaeLiftCommand(algaeLiftSubsystem algae, Supplier<Double> liftValue) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(algae);
     m_Algae = algae;

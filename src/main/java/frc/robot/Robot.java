@@ -60,23 +60,7 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer. This will perform all our button bindings,
     // and put our
     // autonomous chooser on the dashboard.
-     //gyro.calibrate
-    //m_robotContainer = new RobotContainer();
-    //Shuffleboard.getTab("Example tab").add(gyro);
-    //CameraServer.startAutomaticCapture();
-     /*SparkMaxConfig globalConfig = new SparkMaxConfig();
-    SparkMaxConfig rightLeaderConfig = new SparkMaxConfig();
-    joystick = new XboxController(0);
-    rightLeader = new SparkMax(15, MotorType.kBrushless);
-    globalConfig
-        .smartCurrentLimit(50)
-        .idleMode(IdleMode.kBrake);
-
-    // Apply the global config and invert since it is on the opposite side
-    rightLeaderConfig
-        .apply(globalConfig)
-        .inverted(true);
-    rightLeader.configure(rightLeaderConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);*/
+     
     m_robotContainer=new RobotContainer();//this);
   }
 
@@ -119,7 +103,9 @@ public class Robot extends TimedRobot {
    */
   public void autonomousInit() {
     //m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
+    
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
@@ -133,10 +119,7 @@ public class Robot extends TimedRobot {
   @Override
 
   public void autonomousPeriodic() {
-    // if (autoCounter <= 50) {
-    //   autoDriveTrain.drive(1, 0, 0, true, false);
-    //   autoCounter++;
-    // }
+    
 
   }
 
@@ -150,15 +133,12 @@ public class Robot extends TimedRobot {
       m_autonomousCommand.cancel();
     }
     
-
   }
 
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-    // forward = -joystick.getLeftY();
-    //rightLeader.set(forward);
-    //m_robotContainer.teleDrive(m_robotContainer.speeds, m_robotContainer.fieldRelative, true);
+    
   }
 
   @Override
