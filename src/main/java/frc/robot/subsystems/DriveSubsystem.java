@@ -49,6 +49,9 @@ public class DriveSubsystem extends SubsystemBase {
 
   // The gyro sensor
   private final AHRS m_gyro = new AHRS(NavXComType.kMXP_SPI);
+  //private double currentYaw=m_gyro.getYaw();
+  //private double offset=currentYaw;
+  //double correctedOffset = m_gyro.getYaw();
 
   // Odometry class for tracking robot pose
   SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(
@@ -63,7 +66,7 @@ public class DriveSubsystem extends SubsystemBase {
 
   /** Creates a new DriveSubsystem. */
   public DriveSubsystem() {
-    // Usage reporting for MAXSwerve template
+    
     HAL.report(tResourceType.kResourceType_RobotDrive, tInstances.kRobotDriveSwerve_MaxSwerve);
     RobotConfig config;
     try{
@@ -112,6 +115,7 @@ public class DriveSubsystem extends SubsystemBase {
             m_rearRight.getPosition()
         });
   }
+  
 
   /**
    * Returns the currently-estimated pose of the robot.

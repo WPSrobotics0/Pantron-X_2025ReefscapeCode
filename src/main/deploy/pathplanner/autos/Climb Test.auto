@@ -1,0 +1,81 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Stall"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "algaeLiftExtend"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "LTwoClimb"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "LTwoHold"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "scoreCoral"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "LTwoClimb"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "intakeAlgae"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "move back"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "LTwoLower"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": null,
+  "choreoAuto": false
+}

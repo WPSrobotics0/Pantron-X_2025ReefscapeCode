@@ -4,39 +4,44 @@
 
 package frc.robot.commands;
 
-// import java.util.function.Supplier;
-
-//import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.algaeLiftSubsystem;
+import frc.robot.subsystems.ClimbSubsystem;
 
-public class RetractAlgaeLiftCommand extends Command {
-  private algaeLiftSubsystem m_Algae;
-  /** Creates a new IntakeNoteCommand. */
-  public RetractAlgaeLiftCommand(algaeLiftSubsystem algae) {
+
+public class AutoClimbExtendCommand extends Command {
+  private ClimbSubsystem m_climb;
+  private double m_climbValue;
+  /** Creates a new ClimbCommand. */
+  public AutoClimbExtendCommand(ClimbSubsystem climb, double climbValue) {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(algae);
-    m_Algae = algae;
+    addRequirements(climb);
+    m_climb = climb;
+    m_climbValue=climbValue;
+
+
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    //m_shooter.setShooterSpeed(0.5);
-    m_Algae.setLiftSpeed(.25);
-    //SmartDashboard.putBoolean("intakeon", true);
+    // m_climb.setRetractSpeed(0.1);
+    m_climb.setExtendSpeed(-0.22*m_climbValue);
+    SmartDashboard.putBoolean("climbRetracton", true);
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    // m_climb.setRetractSpeed(0.1);
+  }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    //m_shooter.setShooterSpeed(0);
-    m_Algae.setLiftSpeed(0);
-    //    SmartDashboard.putBoolean("intakeon", false);
+     m_climb.setExtendSpeed(0);
+    SmartDashboard.putBoolean("climbRetracton", false);
 
   }
 

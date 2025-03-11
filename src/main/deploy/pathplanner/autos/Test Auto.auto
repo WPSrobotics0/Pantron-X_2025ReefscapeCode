@@ -7,31 +7,19 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Example Path"
+            "pathName": "Stall"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "shootAlgae"
+            "name": "algaeLiftExtend"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "shootCoral"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "intakeAlgae"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "intakeCoral"
+            "name": "holdAlgaeLift"
           }
         }
       ]

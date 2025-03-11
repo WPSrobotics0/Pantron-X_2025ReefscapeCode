@@ -33,7 +33,7 @@ public class ExtendAlgaeLiftCommand extends Command {
     //getRightTriggerAxis=RobotContainer.m_armController.getRightTriggerAxis(); 
     //m_shooter.setShooterSpeed(-1);
     //m_shooter.setShooterSpeed(-1*m_shooter.shootSpeed);
-    m_Algae.setLiftSpeed(.30*m_liftValue.get());
+    m_Algae.setLiftSpeed(.25*m_liftValue.get());
     SmartDashboard.putBoolean("outtakeon", true);
     SmartDashboard.putNumber("num", m_Algae.shootSpeed);
   }
@@ -41,7 +41,7 @@ public class ExtendAlgaeLiftCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_Algae.setLiftSpeed(.30*m_liftValue.get());
+    m_Algae.setLiftSpeed(.25*m_liftValue.get());
     SmartDashboard.putBoolean("outtakeon", true);
     SmartDashboard.putNumber("num", m_Algae.shootSpeed);
     //getRightTriggerAxis=RobotContainer.m_armController.getRightTriggerAxis(); 
