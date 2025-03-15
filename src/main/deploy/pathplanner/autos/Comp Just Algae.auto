@@ -1,0 +1,56 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "named",
+          "data": {
+            "name": "algaeLiftExtend"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "move Forward to reef"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "LTwoClimb"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "intakeAlgae"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "holdAlgaeLift"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "move back reef"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": null,
+  "choreoAuto": false
+}
