@@ -11,6 +11,12 @@
           }
         },
         {
+          "type": "path",
+          "data": {
+            "pathName": "move forward"
+          }
+        },
+        {
           "type": "parallel",
           "data": {
             "commands": [
@@ -24,12 +30,6 @@
                 "type": "named",
                 "data": {
                   "name": "intakeAlgae"
-                }
-              },
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "Straight"
                 }
               }
             ]

@@ -203,6 +203,6 @@ public Command LTwoHold(){
   return new AutoClimbExtendCommand(m_ClimbSubsystem, 0).withTimeout(2);
 }
 public Command LTwoAlgaeLiftExtend(){
-  return new AutoAlgaeLiftCommand(m_AlgaeLiftSubsystem, true).withTimeout(1.8);
+  return new AutoAlgaeLiftCommand(m_AlgaeLiftSubsystem, true).withTimeout(2.4);
 }
 }
